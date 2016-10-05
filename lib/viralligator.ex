@@ -1,0 +1,2 @@
+defmodule Viralligator do
+end

@@ -2,8 +2,11 @@ defmodule Viralligator.Server do
   use Riffed.Server,
     service: :viralligator_thrift,
     structs: Viralligator.Models,
-    functions: [topicsCount: &Viralligator.Handler.topics_count/0,
-                getTopic: &Viralligator.Handler.get_topic/1],
+    functions: [
+      topicsCount: &Viralligator.Handler.topics_count/0,
+      topic: &Viralligator.Handler.topic/1,
+      publish: &Viralligator.Handler.publish/1
+    ],
     server: { :thrift_socket_server,
               port: 2112,
               framed: true,
@@ -18,6 +21,6 @@ defmodule Viralligator.Server do
     :published -> 1
   end
 
-  enumerize_struct Topic, state: TopicState
-  enumerize_function getTopic(_), returns: TopicState
+  # enumerize_struct Topic, state: TopicState
+  # enumerize_function getTopic(_), returns: TopicState
 end

@@ -14,7 +14,11 @@ defmodule Viralligator.Handler do
     0
   end
 
-  def get_topic do
+  def topic do
     TopicState.unpublished
+  end
+
+  def publish(_) do
+    nil
   end
 end

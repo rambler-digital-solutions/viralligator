@@ -1,26 +1,11 @@
 # Viralligator
 
-**TODO: Add description**
+Content monitoring  
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
-
-  1. Add `viralligator` to your list of dependencies in `mix.exs`:
-
-    ```elixir
-    def deps do
-      [{:viralligator, "~> 0.1.0"}]
-    end
-    ```
-
-  2. Ensure `viralligator` is started before your application:
-
-    ```elixir
-    def application do
-      [applications: [:viralligator]]
-    end
-    ```
+- `mix deps.get`
+- `mix amnesia.create -db Database --disk`
 
 ## Thrift Schemas
 

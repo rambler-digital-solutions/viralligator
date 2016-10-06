@@ -18,3 +18,4 @@ erl_crash.dump
 gen-rb
 src
 src/
+Mnesia.nonode@nohost

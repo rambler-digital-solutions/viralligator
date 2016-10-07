@@ -1,0 +1,9 @@
+%{"bunt": {:hex, :bunt, "0.1.6", "5d95a6882f73f3b9969fdfd1953798046664e6f77ec4e486e6fafc7caad97c6f", [:mix], []},
+  "credo": {:hex, :credo, "0.4.12", "f5e1973405ea25c6e64959fb0b6bf92950147a0278cc2a002a491b45f78f7b87", [:mix], [{:bunt, "~> 0.1.6", [hex: :bunt, optional: false]}]},
+  "exlager": {:git, "https://github.com/khia/exlager.git", "78d4ebedf4ea1e31ad2aa202632172a4f775efa8", []},
+  "goldrush": {:git, "https://github.com/basho/goldrush.git", "8f1b715d36b650ec1e1f5612c00e28af6ab0de82", [tag: "0.1.9"]},
+  "lager": {:git, "https://github.com/basho/lager.git", "81eaef0ce98fdbf64ab95665e3bc2ec4b24c7dac", []},
+  "meck": {:hex, :meck, "0.8.4", "59ca1cd971372aa223138efcf9b29475bde299e1953046a0c727184790ab1520", [:rebar, :make], []},
+  "mock": {:git, "https://github.com/jjh42/mock.git", "13c3b40f0e849c018e6b8afbc9d7da899cf4db1b", []},
+  "riffed": {:git, "https://github.com/pinterest/riffed.git", "ca083d52d4ecfad822432da3925f644bc748f260", [tag: "1.0.0", submodules: true]},
+  "thrift": {:git, "https://github.com/pinterest/elixir-thrift.git", "9c3871cc9568eaf23c701ae11dece7bb5790b8ab", [tag: "1.0.0", submodules: true]}}

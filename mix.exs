@@ -30,6 +30,7 @@ defmodule Viralligator.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
+      {:amnesia, "~> 0.2.5"},
       {:riffed, github: "pinterest/riffed", tag: "1.0.0", submodules: true},
       {:credo, "~> 0.4", only: [:dev, :test]}
     ]

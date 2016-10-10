@@ -1,4 +1,8 @@
 defmodule Viralligator.Handler do
+  @moduledoc """
+    Handlers
+  """
+
   use GenServer
   alias Viralligator.Models
 
@@ -14,11 +18,15 @@ defmodule Viralligator.Handler do
     0
   end
 
-  def topic do
-    TopicState.unpublished
+  def topic(url) do
+    %Viralligator.Models.Topic{ id: "id", url: url }
   end
 
   def publish(_) do
     nil
   end
+
+   def handle_error(_, _) do
+     IO.puts "ERrrorrr rererer!!!"
+   end
 end

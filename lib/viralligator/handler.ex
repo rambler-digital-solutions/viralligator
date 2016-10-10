@@ -19,7 +19,7 @@ defmodule Viralligator.Handler do
   end
 
   def topic(url) do
-    %Viralligator.Models.Topic{ id: "id", url: url }
+    %Viralligator.Models.Topic{ id: "id", url: url } |> Topic.write
   end
 
   def publish(_) do

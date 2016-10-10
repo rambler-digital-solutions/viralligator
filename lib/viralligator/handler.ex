@@ -18,8 +18,12 @@ defmodule Viralligator.Handler do
     0
   end
 
-  def topic(url) do
-    %Viralligator.Models.Topic{ id: "id", url: url } |> Topic.write
+  def topic(%{"id" => id, "url" => url}) do
+    %Viralligator.Models.Topic{ id: id, url: url } |> Topic.write
+  end
+
+  def topic(_) do
+    IO.puts "Error. Id, url required"
   end
 
   def publish(_) do

@@ -7,7 +7,7 @@ defmodule Ok do
 
   def process_response_body(body) do
     binary_body = body |> IO.iodata_to_binary
-    Regex.scan ~r/,\'(\d+)/, binary_body
+    Regex.scan(~r/,\'(\d+)/, binary_body)
     |> List.flatten
     |> List.last
   end

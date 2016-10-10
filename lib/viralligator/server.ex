@@ -1,4 +1,8 @@
 defmodule Viralligator.Server do
+  @moduledoc  """
+  Server module
+  """
+
   use Riffed.Server,
     service: :viralligator_thrift,
     structs: Viralligator.Models,
@@ -14,13 +18,15 @@ defmodule Viralligator.Server do
               socket_opts: [
                 recv_timeout: 3000,
                 keepalive: true
-              ]}
+              ]},
+            error_handler: &Handlers.handle_error/2
 
   defenum TopicState do
     :unpublished -> 0
     :published -> 1
   end
 
-  # enumerize_struct Topic, state: TopicState
-  # enumerize_function getTopic(_), returns: TopicState
+  
+  enumerize_struct Topic, state: TopicState
+  enumerize_function topics_count(_), returns: Integer
 end

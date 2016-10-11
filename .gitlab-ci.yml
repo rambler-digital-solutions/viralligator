@@ -6,8 +6,6 @@
     - 'deps'
 
 before_script:
-- apt-get install -y automake bison flex g++ git libboost1.55-all-dev libevent-dev libssl-dev libtool make pkg-config
-
 - mix local.hex --force
 - mix deps.get
 - mix deps.compile

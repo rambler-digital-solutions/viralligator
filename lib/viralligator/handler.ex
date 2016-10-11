@@ -4,6 +4,7 @@ defmodule Viralligator.Handler do
   """
 
   use GenServer
+  use Amnesia
   alias Viralligator.Models
 
   def start_link(opts \\ []) do
@@ -11,19 +12,25 @@ defmodule Viralligator.Handler do
   end
 
   def init(:ok) do
+    Amnesia.start
+
     {:ok, nil}
   end
 
   def topics_count do
-    0
+    Amnesia.transaction do
+      Database.Topic.count
+    end
   end
 
-  def topic(%{"id" => id, "url" => url}) do
-    %Viralligator.Models.Topic{ id: id, url: url } |> Topic.write
-  end
+  def topic(url) do
+    topic_map = Amnesia.transaction do
+      %Database.Topic{ url: url } 
+      |> Database.Topic.write
+      |> Map.from_struct
+    end
 
-  def topic(_) do
-    IO.puts "Error. Id, url required"
+    struct(%Viralligator.Models.Topic{}, topic_map)
   end
 
   def publish(_) do

@@ -16,10 +16,9 @@ defmodule Viralligator.Server do
               framed: true,
               max: 10_000,
               socket_opts: [
-                recv_timeout: 3000,
-                keepalive: true
+                keepalive: false
               ]},
-            error_handler: &Handlers.handle_error/2
+            error_handler: &Viralligator.Handler.handle_error/2
 
   defenum TopicState do
     :unpublished -> 0

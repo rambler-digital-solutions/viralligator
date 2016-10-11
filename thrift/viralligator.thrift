@@ -4,7 +4,7 @@ enum TopicState {
 }
 
 struct Topic {
-  1: required string id;
+  1: required i64 id;
   2: required string url;
   3: optional TopicState state = TopicState.UNPUBLISHED;
   4: optional i64 sharings = 0;

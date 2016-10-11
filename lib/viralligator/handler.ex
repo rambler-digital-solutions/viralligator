@@ -5,7 +5,8 @@ defmodule Viralligator.Handler do
 
   use GenServer
   use Amnesia
-  alias Viralligator.Models
+
+  alias Viralligator.Models.Topic
 
   def start_link(opts \\ []) do
     GenServer.start_link(__MODULE__, :ok, Keyword.merge(opts, name: __MODULE__))
@@ -24,20 +25,24 @@ defmodule Viralligator.Handler do
   end
 
   def topic(url) do
+    binary_url = url |> IO.iodata_to_binary
+    
     topic_map = Amnesia.transaction do
-      %Database.Topic{ url: url } 
+      %Database.Topic{ url: binary_url } 
       |> Database.Topic.write
       |> Map.from_struct
-    end
-
-    struct(%Viralligator.Models.Topic{}, topic_map)
+    end 
+    
+    struct(%Topic{}, topic_map)
   end
 
   def publish(_) do
     nil
   end
 
-   def handle_error(_, _) do
+   def handle_error(b, a) do
+     IO.puts b
+     IO.puts a
      IO.puts "ERrrorrr rererer!!!"
    end
 end

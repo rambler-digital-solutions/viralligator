@@ -1,0 +1,25 @@
+.job: &job
+  image: 'dmitryzuev/elixir-thrift:0.9.3'
+  cache:
+    paths:
+    - '_build'
+    - 'deps'
+
+before_script:
+- apt-get install -y automake bison flex g++ git libboost1.55-all-dev libevent-dev libssl-dev libtool make pkg-config
+
+- mix local.hex --force
+- mix deps.get
+- mix deps.compile
+
+credo:
+  <<: *job
+  script: mix credo
+
+test:
+  <<: *job
+  script: mix test
+
+coverage:
+  <<: *job
+  script: mix coveralls

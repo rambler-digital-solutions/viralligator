@@ -24,7 +24,7 @@ defmodule Viralligator.Handler do
     end
   end
 
-  def topic(url) do
+  def publish(url) do
     binary_url = url |> IO.iodata_to_binary
     
     topic_map = Amnesia.transaction do
@@ -36,13 +36,15 @@ defmodule Viralligator.Handler do
     struct(%Topic{}, topic_map)
   end
 
-  def publish(_) do
-    nil
+  def topic_by_url(url) do
+    Amnesia.transaction do
+      Database.Topic.where(url: url)
+    end
   end
 
-   def handle_error(b, a) do
-     IO.puts b
-     IO.puts a
-     IO.puts "ERrrorrr rererer!!!"
-   end
+  def handle_error(b, a) do
+   IO.puts b
+   IO.puts a
+   IO.puts "ERrrorrr rererer!!!"
+  end
 end

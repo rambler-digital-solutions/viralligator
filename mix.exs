@@ -7,6 +7,8 @@ defmodule Viralligator.Mixfile do
      elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     test_coverage: [tool: ExCoveralls],
+     preferred_cli_env: [coveralls: :test],
      compilers: [:thrift | Mix.compilers],
      thrift_files: Mix.Utils.extract_files(["thrift"], [:thrift]),
      deps: deps()]
@@ -32,7 +34,8 @@ defmodule Viralligator.Mixfile do
     [
       {:amnesia, "~> 0.2.5"},
       {:riffed, github: "pinterest/riffed", tag: "1.0.0", submodules: true},
-      {:credo, "~> 0.4", only: [:dev, :test]}
+      {:credo, "~> 0.4", only: [:dev, :test]},
+      {:excoveralls, "~> 0.5", only: :test},
     ]
   end
 end

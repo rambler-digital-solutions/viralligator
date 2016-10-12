@@ -7,6 +7,8 @@ defmodule Viralligator.Mixfile do
      elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     test_coverage: [tool: ExCoveralls],
+     preferred_cli_env: [coveralls: :test],
      compilers: [:thrift | Mix.compilers],
      thrift_files: Mix.Utils.extract_files(["thrift"], [:thrift]),
      deps: deps()]
@@ -35,7 +37,8 @@ defmodule Viralligator.Mixfile do
       {:httpotion, "~> 3.0.2"},
       {:poison, "~> 3.0"},
       {:floki, "~> 0.10.1"},
-      {:credo, "~> 0.4", only: [:dev, :test]}
+      {:credo, "~> 0.4", only: [:dev, :test]},
+      {:excoveralls, "~> 0.5", only: :test},
     ]
   end
 end

@@ -12,7 +12,7 @@ before_script:
 
 credo:
   <<: *job
-  script: mix credo
+  script: mix credo --strict
 
 test:
   <<: *job

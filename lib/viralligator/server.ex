@@ -9,7 +9,7 @@ defmodule Viralligator.Server do
     functions: [
       topicsCount: &Viralligator.Handler.topics_count/0,
       topic: &Viralligator.Handler.topic/1,
-      publish: &Viralligator.Handler.publish/1
+      sharings: &Viralligator.Handler.sharings/0
     ],
     server: { :thrift_socket_server,
               port: 2112,

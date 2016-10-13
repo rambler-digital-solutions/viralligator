@@ -2,11 +2,16 @@ defmodule Viralligator.Handler do
   @moduledoc """
     Handlers
   """
+  require Database.Topic
 
   use GenServer
   use Amnesia
 
   alias Viralligator.Models.Topic
+  alias Viralligator.Models.Sharing
+  alias Viralligator.ShareService
+
+  require IEx
 
   def start_link(opts \\ []) do
     GenServer.start_link(__MODULE__, :ok, Keyword.merge(opts, name: __MODULE__))
@@ -24,9 +29,9 @@ defmodule Viralligator.Handler do
     end
   end
 
-  def publish(url) do
+  def topic(url) do
     binary_url = url |> IO.iodata_to_binary
-    
+
     topic_map = Amnesia.transaction do
       %Database.Topic{ url: binary_url } 
       |> Database.Topic.write
@@ -36,10 +41,16 @@ defmodule Viralligator.Handler do
     struct(%Topic{}, topic_map)
   end
 
-  def topic_by_url(url) do
+  def sharings do
     Amnesia.transaction do
-      Database.Topic.where(url: url)
+      Database.Topic.stream
+      |> Enum.map(fn item -> %{item.url => ShareService.shares(item.url)} end)
+      |> Enum.map(fn(key, value) -> IEx.pry; Sharing.new(url: key, shares: [value]) end)
     end
+  end
+
+  def topic_by_url(url) do
+    url
   end
 
   def handle_error(b, a) do

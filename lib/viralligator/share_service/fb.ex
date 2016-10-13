@@ -9,8 +9,8 @@ defmodule Fb do
 
   def process_response_body(body) do
     case body_fetcher(body) do
-      {:ok, share} -> share["share_count"]
-      _ -> 0
+      {:ok, share} -> to_string(share["share_count"])
+      _ -> "0"
     end
   end
 

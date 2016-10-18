@@ -29,24 +29,34 @@ defmodule Viralligator.Handler do
     end
   end
 
+  @doc """
+  Запись топика в базу, по url
+  """
   def topic(url) do
     binary_url = url |> IO.iodata_to_binary
-
-    topic_map = Amnesia.transaction do
-      %Database.Topic{ url: binary_url } 
-      |> Database.Topic.write
-      |> Map.from_struct
-    end 
     
-    struct(%Topic{}, topic_map)
+    {:ok, client} = Exredis.start_link
+    
+    client |> Exredis.query(["SET", binary_url, %{}])
+    
+    client |> Exredis.stop
   end
 
+  @doc """
+  Группирует в map результаты шерингов по каждой ссылке в базе
+  """
   def sharings do
-    Amnesia.transaction do
-      Database.Topic.stream
-      |> Enum.map(fn item -> %{item.url => ShareService.shares(item.url)} end)
-      |> Enum.map(fn(key, value) -> IEx.pry; Sharing.new(url: key, shares: [value]) end)
-    end
+    {:ok, client} = Exredis.start_link
+
+    client
+    |> Exredis.query(["KEYS", "*"])
+    |> Enum.map(&shares_for_url/1)
+    |> List.first
+  end
+
+  def shares_for_url(url) do
+    binary_url = url |> IO.iodata_to_binary
+    %Sharing{url: binary_url, shares: ShareService.shares(url)}
   end
 
   def topic_by_url(url) do

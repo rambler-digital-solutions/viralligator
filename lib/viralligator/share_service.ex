@@ -2,6 +2,7 @@ defmodule Viralligator.ShareService do
   def shares(url)  do
     [:ok, :vk, :fb, :gplus]
     |> Enum.map(fn x -> { to_string(x), call(x, url) } end)
+    |> Enum.into(%{})
   end
 
   def call(mod, url) do

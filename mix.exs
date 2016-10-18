@@ -38,6 +38,7 @@ defmodule Viralligator.Mixfile do
       {:poison, "~> 3.0"},
       {:floki, "~> 0.10.1"},
       {:credo, "~> 0.4", only: [:dev, :test]},
+      {:exredis, ">= 0.2.4"},
       {:excoveralls, "~> 0.5", only: :test},
     ]
   end

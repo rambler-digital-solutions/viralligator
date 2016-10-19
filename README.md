@@ -31,5 +31,5 @@ protocol = Thrift::BinaryProtocol.new(transport)
 client = Viralligator::Client.new(protocol)
 
 transport.open
-client.topicsCount
+client.sharings
 ```

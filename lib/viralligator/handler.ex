@@ -9,6 +9,8 @@ defmodule Viralligator.Handler do
 
   require IEx
 
+  @ttl 172_800
+
   def start_link(opts \\ []) do
     GenServer.start_link(__MODULE__, :ok, Keyword.merge(opts, name: __MODULE__))
   end
@@ -30,6 +32,7 @@ defmodule Viralligator.Handler do
     {:ok, client} = Exredis.start_link
     
     client |> Exredis.query(["SET", binary_url, %{}])
+    client |> Exredis.query(["EXPIRE", @ttl])
     
     client |> Exredis.stop
   end
@@ -45,6 +48,9 @@ defmodule Viralligator.Handler do
     |> Enum.map(&shares_for_url/1)
   end
 
+  @doc """
+  Получение шаров по конкретному урлу
+  """
   def shares_for_url(url) do
     binary_url = url |> IO.iodata_to_binary
     %Sharing{url: binary_url, shares: ShareService.shares(url)}

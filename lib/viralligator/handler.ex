@@ -2,9 +2,12 @@ defmodule Viralligator.Handler do
   @moduledoc """
     Handlers
   """
-
   use GenServer
-  alias Viralligator.Models
+
+  alias Viralligator.Models.Sharing
+  alias Viralligator.ShareService
+
+  require IEx
 
   def start_link(opts \\ []) do
     GenServer.start_link(__MODULE__, :ok, Keyword.merge(opts, name: __MODULE__))
@@ -18,15 +21,36 @@ defmodule Viralligator.Handler do
     0
   end
 
+  @doc """
+  Запись топика в базу, по url
+  """
   def topic(url) do
-    %Viralligator.Models.Topic{ id: "id", url: url }
+    binary_url = url |> IO.iodata_to_binary
+    
+    {:ok, client} = Exredis.start_link
+    
+    client |> Exredis.query(["SET", binary_url, %{}])
+    
+    client |> Exredis.stop
   end
 
-  def publish(_) do
-    nil
+  @doc """
+  Группирует в map результаты шерингов по каждой ссылке в базе
+  """
+  def sharings do
+    {:ok, client} = Exredis.start_link
+
+    client
+    |> Exredis.query(["KEYS", "*"])
+    |> Enum.map(&shares_for_url/1)
   end
 
-   def handle_error(_, _) do
-     IO.puts "ERrrorrr rererer!!!"
-   end
+  def shares_for_url(url) do
+    binary_url = url |> IO.iodata_to_binary
+    %Sharing{url: binary_url, shares: ShareService.shares(url)}
+  end
+
+  def handle_error(b, a) do
+   IO.puts "Error #{a} -> #{b}!!!"
+  end
 end

@@ -1,5 +1,5 @@
 defmodule Ok do
-  use HTTPotion.Base
+  use HTTPotion.{Base, Cache}
 
   def process_url(url) do
     "https://connect.ok.ru/dk?st.cmd=extLike&uid=odklcnt0&ref=" <> url

@@ -14,7 +14,8 @@ defmodule Viralligator do
       # Starts a worker by calling: Sdf.Worker.start_link(arg1, arg2, arg3)
       # worker(Sdf.Worker, [arg1, arg2, arg3]),
       worker(Viralligator.Server, []),
-      worker(Viralligator.Handler, [])
+      worker(Viralligator.Handler, []),
+      worker(Cachex, [:http_cache, []])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

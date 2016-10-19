@@ -32,7 +32,7 @@ defmodule Viralligator.Handler do
   def topic(url) do
     binary_url = url |> IO.iodata_to_binary |> UriStringCanonical.canonical
     
-		RedisClient.query_pipe(write_to_redis_query(binary_url))
+    RedisClient.query_pipe(write_to_redis_query(binary_url))
     
     nil
   end
@@ -57,7 +57,7 @@ defmodule Viralligator.Handler do
    IO.puts "Error #{a} -> #{b}!!!"
   end
 
-	defp write_to_redis_query(binary_url) do
+  defp write_to_redis_query(binary_url) do
     [
       ["SET", binary_url, %{}],
       ["EXPIRE", binary_url, @ttl]

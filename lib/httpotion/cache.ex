@@ -15,9 +15,6 @@ defmodule HTTPotion.Cache do
         end
       end
 
-      @doc """
-      Fetching response from cache
-      """
       defp request_from_cache(method, url, options \\ []) do
         Cachex.start_link(:http_cache, [])
         case Cachex.get(:http_cache, cache_key(method, url)) do
@@ -27,9 +24,6 @@ defmodule HTTPotion.Cache do
         end
       end
 
-      @doc """
-      Writing response into cache
-      """
       defp cache_request(method, url, options \\ []) do
         Cachex.start_link(:http_cache, [])
         response = request(method, url, Keyword.delete(options, :cache))

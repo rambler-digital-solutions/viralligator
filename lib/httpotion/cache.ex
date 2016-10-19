@@ -1,6 +1,13 @@
 defmodule HTTPotion.Cache do
+  @moduledoc """
+  HTTPotion Cache implementation
+  """
+
   defmacro __using__(_) do
     quote do
+      @doc """
+      Override HTTPotion.request method
+      """
       def request(method, url, options \\ []) do
         case Keyword.get(options, :cache, false) do
           false -> super(method, url, options)
@@ -8,15 +15,21 @@ defmodule HTTPotion.Cache do
         end
       end
 
+      @doc """
+      Fetching response from cache
+      """
       defp request_from_cache(method, url, options \\ []) do
         Cachex.start_link(:http_cache, [])
         case Cachex.get(:http_cache, cache_key(method, url)) do
           {:ok, response} -> response
           {:missing, _} -> cache_request(method, url, options)
-          {:error, _} -> cache_request(method, url, options)
+          _ -> request(method, url, Keyword.delete(options, :cache))
         end
       end
 
+      @doc """
+      Writing response into cache
+      """
       defp cache_request(method, url, options \\ []) do
         Cachex.start_link(:http_cache, [])
         response = request(method, url, Keyword.delete(options, :cache))

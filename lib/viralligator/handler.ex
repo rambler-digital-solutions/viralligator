@@ -32,7 +32,7 @@ defmodule Viralligator.Handler do
     {:ok, client} = Exredis.start_link
     
     client |> Exredis.query(["SET", binary_url, %{}])
-    client |> Exredis.query(["EXPIRE", @ttl])
+    client |> Exredis.query(["EXPIRE", binary_url, @ttl])
     
     client |> Exredis.stop
   end

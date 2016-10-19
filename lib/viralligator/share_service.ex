@@ -1,8 +1,9 @@
 defmodule Viralligator.ShareService do
+  alias Viralligator.Models.Share
+
   def shares(url)  do
     [:ok, :vk, :fb, :gplus]
-    |> Enum.map(fn x -> { to_string(x), call(x, url) } end)
-    |> Enum.into(%{})
+    |> Enum.map(fn x -> %Share{social: to_string(x), count: call(x, url)} end)
   end
 
   def call(mod, url) do

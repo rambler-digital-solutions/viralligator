@@ -10,9 +10,14 @@ struct Topic {
   4: optional map<string, i64> sharings;
 }
 
+struct Share {
+  1: string social;
+  2: string count;
+}
+
 struct Sharing {
   1: optional string url;
-  2: optional list<map<string, string>> shares;
+  2: optional list<Share> shares;
 }
 
 service Viralligator {

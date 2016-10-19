@@ -51,7 +51,6 @@ defmodule Viralligator.Handler do
     client
     |> Exredis.query(["KEYS", "*"])
     |> Enum.map(&shares_for_url/1)
-    |> List.first
   end
 
   def shares_for_url(url) do

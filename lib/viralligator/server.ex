@@ -11,7 +11,7 @@ defmodule Viralligator.Server do
       topic: &Viralligator.Handler.topic/1,
       sharings: &Viralligator.Handler.sharings/0
     ],
-    server: { :thrift_socket_server,
+    server: {:thrift_socket_server,
               port: 2112,
               framed: true,
               max: 10_000,

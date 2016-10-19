@@ -2,12 +2,8 @@ defmodule Viralligator.Handler do
   @moduledoc """
     Handlers
   """
-  require Database.Topic
-
   use GenServer
-  use Amnesia
 
-  alias Viralligator.Models.Topic
   alias Viralligator.Models.Sharing
   alias Viralligator.ShareService
 
@@ -18,15 +14,11 @@ defmodule Viralligator.Handler do
   end
 
   def init(:ok) do
-    Amnesia.start
-
     {:ok, nil}
   end
 
   def topics_count do
-    Amnesia.transaction do
-      Database.Topic.count
-    end
+    0
   end
 
   @doc """
@@ -58,13 +50,7 @@ defmodule Viralligator.Handler do
     %Sharing{url: binary_url, shares: ShareService.shares(url)}
   end
 
-  def topic_by_url(url) do
-    url
-  end
-
   def handle_error(b, a) do
-   IO.puts b
-   IO.puts a
-   IO.puts "ERrrorrr rererer!!!"
+   IO.puts "Error #{a} -> #{b}!!!"
   end
 end

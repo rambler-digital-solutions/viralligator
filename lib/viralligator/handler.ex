@@ -27,7 +27,7 @@ defmodule Viralligator.Handler do
   Запись топика в базу, по url
   """
   def topic(url) do
-    binary_url = url |> IO.iodata_to_binary
+    binary_url = url |> IO.iodata_to_binary |> UriStringCanonical.canonical
     
     {:ok, client} = Exredis.start_link
     
@@ -52,7 +52,7 @@ defmodule Viralligator.Handler do
   Получение шаров по конкретному урлу
   """
   def shares_for_url(url) do
-    binary_url = url |> IO.iodata_to_binary
+    binary_url = url |> IO.iodata_to_binary |> UriStringCanonical.canonical
     %Sharing{url: binary_url, shares: ShareService.shares(url)}
   end
 

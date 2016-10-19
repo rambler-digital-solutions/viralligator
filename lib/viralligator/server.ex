@@ -3,13 +3,15 @@ defmodule Viralligator.Server do
   Server module
   """
 
+  alias Viralligator.Handler
+
   use Riffed.Server,
     service: :viralligator_thrift,
     structs: Viralligator.Models,
     functions: [
-      topicsCount: &Viralligator.Handler.topics_count/0,
-      topic: &Viralligator.Handler.topic/1,
-      sharings: &Viralligator.Handler.sharings/0
+      topicsCount: &Handler.topics_count/0,
+      topic: &Handler.topic/1,
+      sharings: &Handler.sharings/0
     ],
     server: {:thrift_socket_server,
               port: 2112,
@@ -18,7 +20,7 @@ defmodule Viralligator.Server do
               socket_opts: [
                 keepalive: false
               ]},
-            error_handler: &Viralligator.Handler.handle_error/2
+            error_handler: &Handler.handle_error/2
 
   defenum TopicState do
     :unpublished -> 0

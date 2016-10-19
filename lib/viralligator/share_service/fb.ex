@@ -1,4 +1,7 @@
 defmodule Fb do
+  @moduledoc """
+  Модуль для получения шаров с fb.com
+  """
   use HTTPotion.Base
 
   def process_url(url) do

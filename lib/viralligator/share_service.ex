@@ -1,4 +1,7 @@
 defmodule Viralligator.ShareService do
+  @moduledoc """
+  Модуль комбинирующий получение шаров с различных соц.сетей
+  """
   alias Viralligator.Models.Share
 
   def shares(url)  do

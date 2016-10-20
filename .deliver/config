@@ -9,3 +9,4 @@ BUILD_AT="/home/agency/viralligator/builds"
 STAGING_HOSTS="s1.viralligator.rns.online"
 STAGING_USER="agency"
 DELIVER_TO="/home/agency"
+USING_DISTILLERY=true

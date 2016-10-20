@@ -4,6 +4,11 @@
     paths:
     - '_build'
     - 'deps'
+  services:
+  - redis:3.2.3
+
+variables:
+  REDIS_URL: redis://redis:6379/10
 
 before_script:
 - mix local.hex --force

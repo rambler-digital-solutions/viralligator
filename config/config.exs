@@ -21,14 +21,15 @@ use Mix.Config
 #     config :logger, level: :info
 #
 
+config :exredis,
+  url: "redis://127.0.0.1:6379/10",
+  reconnect: :no_reconnect,
+  max_queue: :infinity
+
 # It is also possible to import configuration files, relative to this
 # directory. For example, you can emulate configuration per environment
 # by uncommenting the line below and defining dev.exs, test.exs and such.
 # Configuration from the imported file will override the ones defined
 # here (which is why it is important to import them last).
-#
-#     import_config "#{Mix.env}.exs"
-config :exredis,
-  url: "redis://127.0.0.1:6379/10",
-  reconnect: :no_reconnect,
-  max_queue: :infinity
+
+import_config "#{Mix.env}.exs"

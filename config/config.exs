@@ -29,6 +29,6 @@ use Mix.Config
 #
 #     import_config "#{Mix.env}.exs"
 config :exredis,
-  url: "redis://127.0.0.1:6379/10",
+  url: System.get_env("REDIS_URI") || "redis://127.0.0.1:6379/10",
   reconnect: :no_reconnect,
   max_queue: :infinity

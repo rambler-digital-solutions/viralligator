@@ -14,6 +14,7 @@ defmodule Viralligator do
       # Starts a worker by calling: Sdf.Worker.start_link(arg1, arg2, arg3)
       # worker(Sdf.Worker, [arg1, arg2, arg3]),
       worker(Viralligator.Server, []),
+      worker(Viralligator.RedisClient, []),
       worker(Viralligator.Handler, []),
       worker(Cachex, [:http_cache, [default_ttl: :timer.minutes(15)]])
     ]

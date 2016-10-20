@@ -1,4 +1,7 @@
 defmodule Vk do
+  @moduledoc """
+  Модуль для получения шаров с vk.com
+  """
   use HTTPotion.{Base, Cache}
 
   def process_url(url) do
@@ -6,10 +9,15 @@ defmodule Vk do
   end
 
   def process_response_body(body) do
-    binary_body = body |> IO.iodata_to_binary
-    Regex.scan(~r/ \d+/, binary_body)
+    body
+    |> IO.iodata_to_binary
+    |> parse_digit
     |> List.flatten
     |> Enum.at(0)
     |> String.trim
+  end
+
+  defp parse_digit(str) do
+    Regex.scan(~r/ \d+/, str)
   end
 end

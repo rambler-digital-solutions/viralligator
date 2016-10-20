@@ -26,10 +26,14 @@ All generated elixir sources should be in `src` direcotry
 `thrift -r --gen rb thrift/viralligator_service.thrift`
 
 ```ruby
+$:.push('gen-rb')
+require 'thrift'
+require 'viralligator'
+
 transport = Thrift::FramedTransport.new(Thrift::Socket.new('127.0.0.1', port))
 protocol = Thrift::BinaryProtocol.new(transport)
 client = Viralligator::Client.new(protocol)
 
 transport.open
-client.topicsCount
+client.sharings
 ```

@@ -1,4 +1,7 @@
 defmodule GPlus do
+  @moduledoc """
+  Модуль для получения шаров с plus.google.com
+  """
   use HTTPotion.{Base, Cache}
 
   def process_url(url) do

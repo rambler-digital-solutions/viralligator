@@ -9,7 +9,7 @@
 
 variables:
   MIX_ENV: test
-  REDIS_URL: redis://redis:6379/10
+  REDIS_URI: redis://redis:6379/10
 
 before_script:
 - mix local.hex --force

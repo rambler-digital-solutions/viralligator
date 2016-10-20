@@ -31,7 +31,7 @@ defmodule Viralligator.RedisClient do
     {:reply, result, redis}
   end
 
-  def start_link(state \\ []) do
+  def start_link(_state \\ []) do
     {:ok, redis_client} = Exredis.start_link
     GenServer.start_link(__MODULE__, redis_client, name: __MODULE__)
   end

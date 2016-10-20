@@ -10,12 +10,15 @@ defmodule Vk do
   end
 
   def process_response_body(body) do
-    binary_body = body |> IO.iodata_to_binary
-    count_shares = Regex.scan(~r/ \d+/, binary_body)
-
-    count_shares
+    body
+    |> IO.iodata_to_binary
+    |> parse_digit
     |> List.flatten
     |> Enum.at(0)
     |> String.trim
+  end
+
+  defp parse_digit(str) do
+    Regex.scan(~r/ \d+/, str)
   end
 end

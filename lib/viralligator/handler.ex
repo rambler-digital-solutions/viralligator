@@ -6,6 +6,7 @@ defmodule Viralligator.Handler do
 
   alias Viralligator.Models.Sharing
   alias Viralligator.ShareService
+  alias Viralligator.RedisClient
 
   require IEx
 
@@ -20,32 +21,28 @@ defmodule Viralligator.Handler do
   end
 
   def topics_count do
-    0
+    raw_count = RedisClient.query(["COMMAND", "COUNT"])
+    raw_count |> Integer.parse |> elem(0)
   end
 
   @doc """
   Запись топика в базу, по url
   """
   def topic(url) do
-    binary_url = url |> IO.iodata_to_binary |> UriStringCanonical.canonical
-    
-    {:ok, client} = Exredis.start_link
-    
-    client |> Exredis.query(["SET", binary_url, %{}])
-    client |> Exredis.query(["EXPIRE", binary_url, @ttl])
-    
-    client |> Exredis.stop
+    url
+    |> IO.iodata_to_binary
+    |> UriStringCanonical.canonical
+    |> write_to_redis_query
+    |> RedisClient.query_pipe
+    nil
   end
 
   @doc """
   Группирует в map результаты шерингов по каждой ссылке в базе
   """
   def sharings do
-    {:ok, client} = Exredis.start_link
-
-    client
-    |> Exredis.query(["KEYS", "*"])
-    |> Enum.map(&shares_for_url/1)
+    urls = RedisClient.query(["KEYS", "*"])
+    urls |> Enum.map(&shares_for_url/1)
   end
 
   @doc """
@@ -58,5 +55,12 @@ defmodule Viralligator.Handler do
 
   def handle_error(b, a) do
    IO.puts "Error #{a} -> #{b}!!!"
+  end
+
+  defp write_to_redis_query(binary_url) do
+    [
+      ["SET", binary_url, %{}],
+      ["EXPIRE", binary_url, @ttl]
+    ]
   end
 end

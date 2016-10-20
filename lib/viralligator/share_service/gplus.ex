@@ -2,7 +2,7 @@ defmodule GPlus do
   @moduledoc """
   Модуль для получения шаров с plus.google.com
   """
-  use HTTPotion.Base
+  use HTTPotion.{Base, Cache}
 
   def process_url(url) do
     "https://plusone.google.com/_/+1/fastbutton?url=" <> url

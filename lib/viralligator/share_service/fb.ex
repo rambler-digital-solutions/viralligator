@@ -2,7 +2,7 @@ defmodule Fb do
   @moduledoc """
   Модуль для получения шаров с fb.com
   """
-  use HTTPotion.Base
+  use HTTPotion.{Base, Cache}
 
   def process_url(url) do
     "https://graph.facebook.com/?id="

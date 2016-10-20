@@ -19,7 +19,7 @@ defmodule Viralligator.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     [mod: {Viralligator, []},
-     applications: [:logger, :httpotion, :cachex]]
+     applications: [:logger, :httpotion, :cachex, :edeliver]]
   end
 
   # Dependencies can be Hex packages:
@@ -41,6 +41,8 @@ defmodule Viralligator.Mixfile do
       {:credo, "~> 0.4", only: [:dev, :test]},
       {:exredis, ">= 0.2.4"},
       {:cachex, "~> 2.0"},
+      {:edeliver, "~> 1.4.0"},
+      {:distillery, ">= 0.8.0", warn_missing: false},
       {:excoveralls, "~> 0.5", only: :test},
     ]
   end

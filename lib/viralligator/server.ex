@@ -21,12 +21,4 @@ defmodule Viralligator.Server do
                 keepalive: false
               ]},
             error_handler: &Handler.handle_error/2
-
-  defenum TopicState do
-    :unpublished -> 0
-    :published -> 1
-  end
-
-  enumerize_struct Topic, state: TopicState
-  enumerize_function topics_count(_), returns: Integer
 end

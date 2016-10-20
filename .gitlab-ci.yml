@@ -8,6 +8,7 @@
   - redis:3.2.3
 
 variables:
+  MIX_ENV: test
   REDIS_URL: redis://redis:6379/10
 
 before_script:

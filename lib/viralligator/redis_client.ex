@@ -15,9 +15,9 @@ defmodule Viralligator.RedisClient do
   end
 
   # For server
-	def	init(redis_client) do
-		{:ok, redis_client}
-	end
+  def	init(redis_client) do
+    {:ok, redis_client}
+  end
 
   def handle_call({:query, params}, _from, redis) do
     result = redis |> Exredis.query(params)

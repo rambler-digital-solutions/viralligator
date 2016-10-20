@@ -22,18 +22,18 @@ defmodule Viralligator.Handler do
 
   def topics_count do
     raw_count = RedisClient.query(["COMMAND", "COUNT"])
-    {count, _} =  raw_count |> Integer.parse
-    count
+    raw_count |> Integer.parse |> elem(0)
   end
 
   @doc """
   Запись топика в базу, по url
   """
   def topic(url) do
-    binary_url = url |> IO.iodata_to_binary |> UriStringCanonical.canonical
-    
-    RedisClient.query_pipe(write_to_redis_query(binary_url))
-    
+    url
+    |> IO.iodata_to_binary
+    |> UriStringCanonical.canonical
+    |> write_to_redis_query
+    |> RedisClient.query_pipe
     nil
   end
 
@@ -62,5 +62,5 @@ defmodule Viralligator.Handler do
       ["SET", binary_url, %{}],
       ["EXPIRE", binary_url, @ttl]
     ]
-	end
+  end
 end

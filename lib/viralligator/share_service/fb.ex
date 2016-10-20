@@ -5,8 +5,8 @@ defmodule Fb do
   use HTTPotion.Base
 
   def process_url(url) do
-    "https://graph.facebook.com/?id=" 
-      <> url 
+    "https://graph.facebook.com/?id="
+      <> url
       <> "&access_token=515263178664963|c3e8f07112daff2945b3abd70e023a20"
   end
 

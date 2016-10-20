@@ -27,7 +27,6 @@ defmodule Viralligator.Server do
     :published -> 1
   end
 
-  
   enumerize_struct Topic, state: TopicState
   enumerize_function topics_count(_), returns: Integer
 end

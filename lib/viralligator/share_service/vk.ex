@@ -2,8 +2,7 @@ defmodule Vk do
   @moduledoc """
   Модуль для получения шаров с vk.com
   """
-
-  use HTTPotion.Base
+  use HTTPotion.{Base, Cache}
 
   def process_url(url) do
     "http://vk.com/share.php?act=count&url=" <> url

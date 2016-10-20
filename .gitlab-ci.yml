@@ -1,0 +1,29 @@
+.job: &job
+  image: 'dmitryzuev/elixir-thrift:0.9.3'
+  cache:
+    paths:
+    - '_build'
+    - 'deps'
+  services:
+  - redis:3.2.3
+
+variables:
+  MIX_ENV: test
+  REDIS_URI: redis://redis:6379/10
+
+before_script:
+- mix local.hex --force
+- mix deps.get
+- mix deps.compile
+
+credo:
+  <<: *job
+  script: mix credo --strict
+
+test:
+  <<: *job
+  script: mix test
+
+coverage:
+  <<: *job
+  script: mix coveralls

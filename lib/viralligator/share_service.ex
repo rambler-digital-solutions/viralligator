@@ -11,10 +11,10 @@ defmodule Viralligator.ShareService do
 
   def call(mod, url) do
     case mod do
-      :ok -> Ok.get(url).body
-      :vk -> Vk.get(url).body
-      :fb -> Fb.get(url).body
-      :gplus -> GPlus.get(url).body
+      :ok -> Ok.get(url, cache: true).body
+      :vk -> Vk.get(url, cache: true).body
+      :fb -> Fb.get(url, cache: true).body
+      :gplus -> GPlus.get(url, cache: true).body
     end
   end
 end

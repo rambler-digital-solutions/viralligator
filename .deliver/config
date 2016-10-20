@@ -10,4 +10,4 @@ STAGING_HOSTS="s1.viralligator.rns.online"
 STAGING_USER="agency"
 DELIVER_TO="/home/agency"
 USING_DISTILLERY=true
-REDIS_URI="redis://127.0.0.1:6379/10"
+REDIS_URI="redis://127.0.0.1:6379/0"

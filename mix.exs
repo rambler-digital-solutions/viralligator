@@ -18,7 +18,8 @@ defmodule Viralligator.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :httpotion, :cachex]]
+    [mod: {Viralligator, []},
+     applications: [:logger, :httpotion, :cachex]]
   end
 
   # Dependencies can be Hex packages:

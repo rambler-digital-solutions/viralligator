@@ -15,7 +15,7 @@ defmodule Viralligator do
       # worker(Sdf.Worker, [arg1, arg2, arg3]),
       worker(Viralligator.Server, []),
       worker(Viralligator.Handler, []),
-      worker(Cachex, [:http_cache, []])
+      worker(Cachex, [:http_cache, [default_ttl: :timer.minutes(15)]])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

@@ -21,7 +21,7 @@ defmodule Viralligator.ShareService do
     @folder_for_socials
     |> Path.join("*.ex")
     |> Path.wildcard
-    |> Enum.map(fn item -> Path.basename(item, ".ex") end)
+    |> Enum.map(&Path.basename(&1, ".ex"))
     |> Enum.map(&String.capitalize/1)
   end
 end

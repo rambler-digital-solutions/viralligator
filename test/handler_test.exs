@@ -11,6 +11,6 @@ defmodule Viralligator.HandlerTest do
   test "handle_error"
 
   test "Check struct type return shares_for_url" do
-    assert %Viralligator.Models.Sharing{} = Handler.shares_for_url("http://google.ru")
+    assert %Viralligator.Models.Sharing{} = Handler.shares_for_url("https://rns.online")
   end
 end

@@ -6,16 +6,16 @@ defmodule Viralligator.ShareService do
 
   @folder_for_socials "lib/viralligator/share_service"
 
-  def shares(url)  do
-    list_services
-    |> Enum.map(fn x -> %Share{social: to_string(x), count: call(x, url)} end)
-  end
+  def shares(url), do: list_services |> Enum.map(&(wrap_sharing(&1, url)))
 
   def call(mod, url) do
     Module.concat(Viralligator.ShareService, mod)
           .get(url, cache: true)
-          .body
+          .body |> Integer.parse |> elem(0)
   end
+
+  defp wrap_sharing(social, url), do:
+    %Share{social: to_string(social), count: call(social, url)} 
 
   defp list_services do
     @folder_for_socials

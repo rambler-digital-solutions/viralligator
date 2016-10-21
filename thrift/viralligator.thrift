@@ -12,7 +12,7 @@ struct Topic {
 
 struct Share {
   1: string social;
-  2: string count;
+  2: i64 count;
 }
 
 struct Sharing {

@@ -11,6 +11,7 @@ defmodule Viralligator.Handler do
   require IEx
 
   @ttl 172_800
+  @redis_namespace "viralligator:"
 
   def start_link(opts \\ []) do
     GenServer.start_link(__MODULE__, :ok, Keyword.merge(opts, name: __MODULE__))
@@ -28,7 +29,7 @@ defmodule Viralligator.Handler do
   @doc """
   Запись топика в базу, по url
   """
-  def topic(url, tags) do
+  def topic(url, tags \\ []) do
     url
     |> IO.iodata_to_binary
     |> UriStringCanonical.canonical
@@ -59,8 +60,8 @@ defmodule Viralligator.Handler do
 
   defp write_to_redis_query(binary_url) do
     [
-      ["SET", "viralligator:" <> binary_url, tags],
-      ["EXPIRE", "viralligator:" <> binary_url, @ttl]
+      Enum.map(tags, fn tag -> ["SADD", @redis_namespace, tag] end),
+      ["EXPIRE", @redis_namespace <> binary_url, @ttl]
     ]
   end
 end

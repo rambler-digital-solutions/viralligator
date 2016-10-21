@@ -1,6 +1,6 @@
 # Viralligator
 
-Content monitoring  
+Content monitoring
 
 ## Installation
 
@@ -9,18 +9,18 @@ Content monitoring
 
 ## Thrift Schemas
 
-Code genaration for Viralligator Server and Client Libs  
+Code genaration for Viralligator Server and Client Libs
 
-## Project structure 
+## Project structure
   - thrift schemas in `thrift` folder
   - elixir generated code in `src`
   - ruby generated code in `gen-rb`
 
-## Elixir Server Code 
+## Elixir Server Code
   - `mix deps.get`
   - `mix`
 
-All generated elixir sources should be in `src` direcotry 
+All generated elixir sources should be in `src` direcotry
 
 ## Ruby Client Code
 `thrift -r --gen rb thrift/viralligator_service.thrift`

@@ -12,12 +12,9 @@ defmodule Viralligator.ShareService do
   end
 
   def call(mod, url) do
-    case mod do
-      :ok -> Ok.get(url, cache: true).body
-      :vk -> Vk.get(url, cache: true).body
-      :fb -> Fb.get(url, cache: true).body
-      :gplus -> GPlus.get(url, cache: true).body
-    end
+    Module.concat(Viralligator.ShareService, mod)
+          .get(url, cache: true)
+          .body
   end
 
   defp list_services do
@@ -25,6 +22,6 @@ defmodule Viralligator.ShareService do
     |> Path.join("*.ex")
     |> Path.wildcard
     |> Enum.map(fn item -> Path.basename(item, ".ex") end)
-    |> Enum.map(&String.to_atom/1)
+    |> Enum.map(&String.capitalize/1)
   end
 end

@@ -28,11 +28,11 @@ defmodule Viralligator.Handler do
   @doc """
   Запись топика в базу, по url
   """
-  def topic(url) do
+  def topic(url, tags) do
     url
     |> IO.iodata_to_binary
     |> UriStringCanonical.canonical
-    |> write_to_redis_query
+    |> &write_to_redis_query(&1, tags)
     |> RedisClient.query_pipe
     nil
   end
@@ -41,14 +41,14 @@ defmodule Viralligator.Handler do
   Группирует в map результаты шерингов по каждой ссылке в базе
   """
   def sharings do
-    urls = RedisClient.query(["KEYS", "*"])
-    urls |> Enum.map(&shares_for_url/1)
+    urls = RedisClient.query(["KEYS", "viralligator:*"])
+    urls |> Enum.map(&shares_by_url/1)
   end
 
   @doc """
   Получение шаров по конкретному урлу
   """
-  def shares_for_url(url) do
+  def shares_by_url(url) do
     binary_url = url |> IO.iodata_to_binary |> UriStringCanonical.canonical
     %Sharing{url: binary_url, shares: ShareService.shares(url)}
   end
@@ -59,8 +59,8 @@ defmodule Viralligator.Handler do
 
   defp write_to_redis_query(binary_url) do
     [
-      ["SET", binary_url, %{}],
-      ["EXPIRE", binary_url, @ttl]
+      ["SET", "viralligator:" <> binary_url, tags],
+      ["EXPIRE", "viralligator:" <> binary_url, @ttl]
     ]
   end
 end

@@ -24,4 +24,5 @@ service Viralligator {
   i64 topicsCount();
   void topic(1: string url);
   list<Sharing> sharings();
+  list<Sharing> shares_by_url(1: string url);
 }

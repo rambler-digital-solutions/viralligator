@@ -11,7 +11,8 @@ defmodule Viralligator.Server do
     functions: [
       topicsCount: &Handler.topics_count/0,
       topic: &Handler.topic/1,
-      sharings: &Handler.sharings/0
+      sharings: &Handler.sharings/0,
+      shares_by_url: &Handler.shares_by_url/1
     ],
     server: {:thrift_socket_server,
               port: 2112,

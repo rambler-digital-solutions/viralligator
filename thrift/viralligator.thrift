@@ -23,5 +23,5 @@ struct Sharing {
 service Viralligator {
   void publish(1: string url, 2: list<string> tags);
   list<Sharing> sharings(1: list<string> tags);
-  list<Sharing> shares_by_url(1: string url);
+  list<Share> shares_by_url(1: string url);
 }

@@ -1,6 +1,6 @@
 # Viralligator
 
-Content monitoring  
+Content monitoring
 
 ## Installation
 
@@ -9,31 +9,52 @@ Content monitoring
 
 ## Thrift Schemas
 
-Code genaration for Viralligator Server and Client Libs  
+Code genaration for Viralligator Server and Client Libs
 
-## Project structure 
+## Project structure
   - thrift schemas in `thrift` folder
   - elixir generated code in `src`
   - ruby generated code in `gen-rb`
 
-## Elixir Server Code 
+## Elixir Server Code
   - `mix deps.get`
   - `mix`
 
-All generated elixir sources should be in `src` direcotry 
+All generated elixir sources should be in `src` direcotry
 
 ## Ruby Client Code
-`thrift -r --gen rb thrift/viralligator_service.thrift`
+
+Require ruby client in project
 
 ```ruby
-$:.push('gen-rb')
-require 'thrift'
-require 'viralligator'
-
-transport = Thrift::FramedTransport.new(Thrift::Socket.new('127.0.0.1', port))
-protocol = Thrift::BinaryProtocol.new(transport)
-client = Viralligator::Client.new(protocol)
-
-transport.open
-client.sharings
+# Add to gemfile
+gem 'viralligator', source: 'http://ramblergems.park.rambler.ru'
 ```
+
+Use ruby client library locally
+
+```ruby
+cd ruby_client && bundle && bundle console
+Viralligator.client.topicsCount
+```
+
+### Update ruby client
+
+Build ruby client library
+
+`thrift -r -out ruby_client/lib/viralligator --gen rb thrift/viralligator.thrift`
+
+
+### Update gem version
+
+Update `VERSION` file
+
+`echo "<new_version>" > VERSION`
+
+Build gem
+
+`cd ruby_client && rake build`
+
+Publish gem
+
+`gem inabox ruby_client/pkg/viralligator-$(cat VERSION).gem`

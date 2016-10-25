@@ -36,7 +36,7 @@ defmodule Viralligator.Handler do
   @doc """
   Группирует в map результаты шерингов по каждой ссылке в базе
   """
-  def sharings(tags \\ []) do
+  def sharings(tags \\ ["viralligator"]) do
     tags
     |> Enum.map(&to_string/1)
     |> urls_by_tags
@@ -67,14 +67,11 @@ defmodule Viralligator.Handler do
     normalize_tags = tags |> Enum.map(&to_string/1)
                           |> Enum.map(&(@redis_namespace <> "tags:" <> &1))
 
-    query = ["SINTER"] ++ normalize_tags
+    query = ["SINTER"] ++ normalize_tags ++ ["viralligator:tags:viralligator"]
     result = RedisClient.query(query)
     result |> remove_namespace
   end
 
-  @doc """
-  Удаляет кастомный неймспейс из строк
-  """
   defp remove_namespace(strings), do:
     strings |> Enum.map(&String.replace(&1, @redis_namespace, ""))
 end

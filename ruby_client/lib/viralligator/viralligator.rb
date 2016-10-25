@@ -92,8 +92,7 @@ module Viralligator
 
     FIELDS = {
       URL => {:type => ::Thrift::Types::STRING, :name => 'url'},
-      TAGS => {:type => ::Thrift::Types::LIST, :name => 'tags', :default => [
-      ], :element => {:type => ::Thrift::Types::STRING}}
+      TAGS => {:type => ::Thrift::Types::LIST, :name => 'tags', :element => {:type => ::Thrift::Types::STRING}}
     }
 
     def struct_fields; FIELDS; end
@@ -124,8 +123,7 @@ module Viralligator
     TAGS = 1
 
     FIELDS = {
-      TAGS => {:type => ::Thrift::Types::LIST, :name => 'tags', :default => [
-      ], :element => {:type => ::Thrift::Types::STRING}}
+      TAGS => {:type => ::Thrift::Types::LIST, :name => 'tags', :element => {:type => ::Thrift::Types::STRING}}
     }
 
     def struct_fields; FIELDS; end
@@ -173,7 +171,7 @@ module Viralligator
     SUCCESS = 0
 
     FIELDS = {
-      SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => ::Sharing}}
+      SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => ::Share}}
     }
 
     def struct_fields; FIELDS; end

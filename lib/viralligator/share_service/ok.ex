@@ -1,4 +1,4 @@
-defmodule Ok do
+defmodule Viralligator.ShareService.Ok do
   @moduledoc """
   Модуль для получения шаров с ok.ru
   """

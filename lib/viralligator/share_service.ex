@@ -4,17 +4,24 @@ defmodule Viralligator.ShareService do
   """
   alias Viralligator.Models.Share
 
-  def shares(url)  do
-    [:ok, :vk, :fb, :gplus]
-    |> Enum.map(fn x -> %Share{social: to_string(x), count: call(x, url)} end)
-  end
+  @folder_for_socials "lib/viralligator/share_service"
+
+  def shares(url), do: list_services |> Enum.map(&wrap_sharing(&1, url))
 
   def call(mod, url) do
-    case mod do
-      :ok -> Ok.get(url, cache: true).body
-      :vk -> Vk.get(url, cache: true).body
-      :fb -> Fb.get(url, cache: true).body
-      :gplus -> GPlus.get(url, cache: true).body
-    end
+    Module.concat(Viralligator.ShareService, mod)
+          .get(url, cache: true)
+          .body |> Integer.parse |> elem(0)
+  end
+
+  defp wrap_sharing(social, url), do:
+    %Share{social: to_string(social), count: call(social, url)}
+
+  defp list_services do
+    @folder_for_socials
+    |> Path.join("*.ex")
+    |> Path.wildcard
+    |> Enum.map(&Path.basename(&1, ".ex"))
+    |> Enum.map(&String.capitalize/1)
   end
 end

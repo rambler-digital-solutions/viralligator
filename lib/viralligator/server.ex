@@ -9,9 +9,9 @@ defmodule Viralligator.Server do
     service: :viralligator_thrift,
     structs: Viralligator.Models,
     functions: [
-      topicsCount: &Handler.topics_count/0,
-      topic: &Handler.topic/1,
-      sharings: &Handler.sharings/0
+      publish: &Handler.publish/2,
+      sharings: &Handler.sharings/1,
+      shares_by_url: &Handler.shares_by_url/1
     ],
     server: {:thrift_socket_server,
               port: 2112,

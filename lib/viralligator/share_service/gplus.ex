@@ -1,4 +1,4 @@
-defmodule GPlus do
+defmodule Viralligator.ShareService.Gplus do
   @moduledoc """
   Модуль для получения шаров с plus.google.com
   """

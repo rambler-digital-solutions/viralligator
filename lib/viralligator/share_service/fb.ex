@@ -1,4 +1,4 @@
-defmodule Fb do
+defmodule Viralligator.ShareService.Fb do
   @moduledoc """
   Модуль для получения шаров с fb.com
   """

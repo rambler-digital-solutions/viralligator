@@ -11,6 +11,7 @@ defmodule Viralligator.Handler do
   require IEx
 
   @ttl 172_800
+  @redis_namespace "viralligator:"
 
   def start_link(opts \\ []) do
     GenServer.start_link(__MODULE__, :ok, Keyword.merge(opts, name: __MODULE__))
@@ -20,19 +21,14 @@ defmodule Viralligator.Handler do
     {:ok, nil}
   end
 
-  def topics_count do
-    raw_count = RedisClient.query(["COMMAND", "COUNT"])
-    raw_count |> Integer.parse |> elem(0)
-  end
-
   @doc """
   Запись топика в базу, по url
   """
-  def topic(url) do
+  def publish(url, tags \\ []) do
     url
     |> IO.iodata_to_binary
     |> UriStringCanonical.canonical
-    |> write_to_redis_query
+    |> (&write_to_redis_query(&1, tags ++ ["viralligator"])).()
     |> RedisClient.query_pipe
     nil
   end
@@ -40,27 +36,43 @@ defmodule Viralligator.Handler do
   @doc """
   Группирует в map результаты шерингов по каждой ссылке в базе
   """
-  def sharings do
-    urls = RedisClient.query(["KEYS", "*"])
-    urls |> Enum.map(&shares_for_url/1)
+  def sharings(tags \\ ["viralligator"]) do
+    tags
+    |> Enum.map(&to_string/1)
+    |> urls_by_tags
+    |> Enum.map(&shares_by_url/1)
   end
 
   @doc """
   Получение шаров по конкретному урлу
   """
-  def shares_for_url(url) do
+  def shares_by_url(url) do
     binary_url = url |> IO.iodata_to_binary |> UriStringCanonical.canonical
     %Sharing{url: binary_url, shares: ShareService.shares(url)}
   end
 
-  def handle_error(b, a) do
-   IO.puts "Error #{a} -> #{b}!!!"
+  def handle_error(b, a), do: IO.puts "Error #{a} -> #{b}!!!"
+
+  defp write_to_redis_query(binary_url, tags) do
+    tags_query = Enum.map(tags,
+     &(["SADD", @redis_namespace <> "tags:" <> &1, binary_url]))
+
+    tags_query ++ [["EXPIRE", @redis_namespace <> binary_url, @ttl]]
   end
 
-  defp write_to_redis_query(binary_url) do
-    [
-      ["SET", binary_url, %{}],
-      ["EXPIRE", binary_url, @ttl]
-    ]
+  @doc """
+  Список урлов по тэгам
+  """
+  def urls_by_tags(tags \\ []) do
+    normalize_tags = tags |> Enum.map(&to_string/1)
+                          |> Enum.map(&IO.iodata_to_binary/1)
+                          |> Enum.map(&(@redis_namespace <> "tags:" <> &1))
+
+    query = ["SINTER"] ++ normalize_tags ++ ["viralligator:tags:viralligator"]
+    result = RedisClient.query(query)
+    result |> remove_namespace
   end
+
+  defp remove_namespace(strings), do:
+    strings |> Enum.map(&String.replace(&1, @redis_namespace, ""))
 end

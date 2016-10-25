@@ -21,19 +21,14 @@ defmodule Viralligator.Handler do
     {:ok, nil}
   end
 
-  def topics_count do
-    raw_count = RedisClient.query(["COMMAND", "COUNT"])
-    raw_count |> Integer.parse |> elem(0)
-  end
-
   @doc """
   Запись топика в базу, по url
   """
-  def topic(url, tags \\ []) do
+  def publish(url, tags \\ []) do
     url
     |> IO.iodata_to_binary
     |> UriStringCanonical.canonical
-    |> &write_to_redis_query(&1, tags)
+    |> (&write_to_redis_query(&1, tags)).()
     |> RedisClient.query_pipe
     nil
   end
@@ -41,9 +36,11 @@ defmodule Viralligator.Handler do
   @doc """
   Группирует в map результаты шерингов по каждой ссылке в базе
   """
-  def sharings do
-    urls = RedisClient.query(["KEYS", "viralligator:*"])
-    urls |> Enum.map(&shares_by_url/1)
+  def sharings(tags \\ []) do
+    tags
+    |> Enum.map(&to_string/1)
+    |> urls_by_tags
+    |> Enum.map(&shares_by_url/1)
   end
 
   @doc """
@@ -54,14 +51,30 @@ defmodule Viralligator.Handler do
     %Sharing{url: binary_url, shares: ShareService.shares(url)}
   end
 
-  def handle_error(b, a) do
-   IO.puts "Error #{a} -> #{b}!!!"
+  def handle_error(b, a), do: IO.puts "Error #{a} -> #{b}!!!"
+
+  defp write_to_redis_query(binary_url, tags) do
+    tags_query = Enum.map(tags,
+     &(["SADD", @redis_namespace <> "tags:" <> &1, binary_url]))
+
+    tags_query ++ [["EXPIRE", @redis_namespace <> binary_url, @ttl]]
   end
 
-  defp write_to_redis_query(binary_url) do
-    [
-      Enum.map(tags, fn tag -> ["SADD", @redis_namespace, tag] end),
-      ["EXPIRE", @redis_namespace <> binary_url, @ttl]
-    ]
+  @doc """
+  Список урлов по тэгам
+  """
+  def urls_by_tags(tags \\ []) do
+    normalize_tags = tags |> Enum.map(&to_string/1)
+                          |> Enum.map(&(@redis_namespace <> "tags:" <> &1))
+
+    query = ["SINTER"] ++ normalize_tags
+    result = RedisClient.query(query)
+    result |> remove_namespace
   end
+
+  @doc """
+  Удаляет кастомный неймспейс из строк
+  """
+  defp remove_namespace(strings), do:
+    strings |> Enum.map(&String.replace(&1, @redis_namespace, ""))
 end

@@ -21,8 +21,7 @@ struct Sharing {
 }
 
 service Viralligator {
-  i64 topicsCount();
-  void topic(1: string url);
-  list<Sharing> sharings();
+  void publish(1: string url, 1: list<string> tags);
+  list<Sharing> sharings(list<string> tags);
   list<Sharing> shares_by_url(1: string url);
 }

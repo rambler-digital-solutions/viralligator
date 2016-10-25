@@ -15,7 +15,7 @@ defmodule Viralligator.ShareService do
   end
 
   defp wrap_sharing(social, url), do:
-    %Share{social: to_string(social), count: call(social, url)} 
+    %Share{social: to_string(social), count: call(social, url)}
 
   defp list_services do
     @folder_for_socials

@@ -28,7 +28,7 @@ defmodule Viralligator.Handler do
     url
     |> IO.iodata_to_binary
     |> UriStringCanonical.canonical
-    |> (&write_to_redis_query(&1, tags)).()
+    |> (&write_to_redis_query(&1, tags ++ ["viralligator"])).()
     |> RedisClient.query_pipe
     nil
   end
@@ -65,6 +65,7 @@ defmodule Viralligator.Handler do
   """
   def urls_by_tags(tags \\ []) do
     normalize_tags = tags |> Enum.map(&to_string/1)
+                          |> Enum.map(&IO.iodata_to_binary/1)
                           |> Enum.map(&(@redis_namespace <> "tags:" <> &1))
 
     query = ["SINTER"] ++ normalize_tags ++ ["viralligator:tags:viralligator"]

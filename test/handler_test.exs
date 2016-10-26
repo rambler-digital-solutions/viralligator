@@ -10,7 +10,8 @@ defmodule Viralligator.HandlerTest do
   @tag :skip
   test "handle_error"
 
-  test "Check struct type return shares_for_url" do
-    assert %Viralligator.Models.Sharing{} = Handler.shares_for_url("http://google.ru")
+  test "shares for rns not empty" do
+    Handler.publish "https://rns.online"
+    assert (Handler.sharings |> length) != 0
   end
 end

@@ -12,7 +12,7 @@ struct Topic {
 
 struct Share {
   1: string social;
-  2: string count;
+  2: i64 count;
 }
 
 struct Sharing {
@@ -21,7 +21,7 @@ struct Sharing {
 }
 
 service Viralligator {
-  i64 topicsCount();
-  void topic(1: string url);
-  list<Sharing> sharings();
+  void publish(1: string url, 2: list<string> tags);
+  list<Sharing> sharings(1: list<string> tags);
+  list<Share> shares_by_url(1: string url);
 }

@@ -1,4 +1,4 @@
-defmodule Vk do
+defmodule Viralligator.ShareService.Vk do
   @moduledoc """
   Модуль для получения шаров с vk.com
   """

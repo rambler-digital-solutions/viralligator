@@ -171,7 +171,7 @@ module Viralligator
     SUCCESS = 0
 
     FIELDS = {
-      SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => ::Share}}
+      SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => ::Sharing}
     }
 
     def struct_fields; FIELDS; end

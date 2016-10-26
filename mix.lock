@@ -4,7 +4,7 @@
   "cachex": {:hex, :cachex, "2.0.0", "be7bba9862f2e587baffa4b7fe09815e4996ee5e9e0eaae361c503d9052c716e", [:mix], [{:eternal, "~> 1.1", [hex: :eternal, optional: false]}]},
   "certifi": {:hex, :certifi, "0.4.0", "a7966efb868b179023618d29a407548f70c52466bf1849b9e8ebd0e34b7ea11f", [:rebar3], []},
   "cf": {:hex, :cf, "0.2.1", "69d0b1349fd4d7d4dc55b7f407d29d7a840bf9a1ef5af529f1ebe0ce153fc2ab", [:rebar3], []},
-  "credo": {:hex, :credo, "0.4.12", "f5e1973405ea25c6e64959fb0b6bf92950147a0278cc2a002a491b45f78f7b87", [:mix], [{:bunt, "~> 0.1.6", [hex: :bunt, optional: false]}]},
+  "credo": {:hex, :credo, "0.4.13", "0e9d0479c7e0591e36b093bf17fbdde012e2a69b5571e2df8d0b75b4fc8adc74", [:mix], [{:bunt, "~> 0.1.6", [hex: :bunt, optional: false]}]},
   "deppie": {:hex, :deppie, "1.0.0", "ec1207cdadf7c81aea171cb8acc68fc0eb1a8f6015ad785e6b5001dbb2a7d7ea", [:mix], []},
   "distillery": {:hex, :distillery, "0.10.1", "14fccade4b8ab849b99e21c4bdfaa1092dbacdce8afd33f5c369c6e114385b0e", [:mix], []},
   "edeliver": {:hex, :edeliver, "1.4.0", "c1713b3fabfa75d64770a28b715379be6631442b5d288fc92d45e037757dc9c8", [:mix], [{:distillery, ">= 0.8.0", [hex: :distillery, optional: true]}, {:exrm, ">= 0.16.0", [hex: :exrm, optional: true]}]},

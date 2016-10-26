@@ -51,7 +51,33 @@ defmodule Viralligator.Handler do
     %Sharing{url: binary_url, shares: ShareService.shares(url)}
   end
 
+  @doc """
+  Список урлов по тэгам
+  """
+  def urls_by_tags(tags \\ []) do
+    tags_tmp = tags |> normalize_tags
+    query = ["SINTER"] ++ tags_tmp ++ ["viralligator:tags:viralligator"]
+    result = RedisClient.query(query)
+    result |> remove_namespace
+  end
+
+  @doc """
+  Приведение тегов к бинарным строкам и добавление неймспейса
+  """
+  def normalize_tags(tags) do
+    tags
+    |> Enum.map(&to_string/1)
+    |> Enum.map(&IO.iodata_to_binary/1)
+    |> Enum.map(&(@redis_namespace <> "tags:" <> &1))
+  end
+
+  @doc """
+  Обработка ошибок
+  """
   def handle_error(b, a), do: IO.puts "Error #{a} -> #{b}!!!"
+
+  defp remove_namespace(strings), do:
+    strings |> Enum.map(&String.replace(&1, @redis_namespace, ""))
 
   defp write_to_redis_query(binary_url, tags) do
     tags_query = Enum.map(tags,
@@ -59,20 +85,4 @@ defmodule Viralligator.Handler do
 
     tags_query ++ [["EXPIRE", @redis_namespace <> binary_url, @ttl]]
   end
-
-  @doc """
-  Список урлов по тэгам
-  """
-  def urls_by_tags(tags \\ []) do
-    normalize_tags = tags |> Enum.map(&to_string/1)
-                          |> Enum.map(&IO.iodata_to_binary/1)
-                          |> Enum.map(&(@redis_namespace <> "tags:" <> &1))
-
-    query = ["SINTER"] ++ normalize_tags ++ ["viralligator:tags:viralligator"]
-    result = RedisClient.query(query)
-    result |> remove_namespace
-  end
-
-  defp remove_namespace(strings), do:
-    strings |> Enum.map(&String.replace(&1, @redis_namespace, ""))
 end

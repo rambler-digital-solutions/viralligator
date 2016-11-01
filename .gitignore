@@ -16,8 +16,6 @@ erl_crash.dump
 # Also ignore archive artifacts (built via "mix archive.build").
 *.ez
 gen-rb
-src
-src/
 Mnesia.nonode@nohost
 .deliver/releases/
 ruby_client/pkg

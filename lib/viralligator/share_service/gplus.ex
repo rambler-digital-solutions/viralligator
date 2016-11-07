@@ -4,6 +4,13 @@ defmodule Viralligator.ShareService.Gplus do
   """
   use HTTPotion.{Base, Cache}
 
+  @social_name "Gplus"
+  @rate_limit 5
+
+  require Viralligator.ShareServer
+  Viralligator.ShareServer.add_social_server
+
+
   def process_url(url) do
     "https://plusone.google.com/_/+1/fastbutton?url=" <> url
   end

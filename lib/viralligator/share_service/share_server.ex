@@ -1,5 +1,8 @@
 defmodule Viralligator.ShareServer do
-
+  @doc """
+    Модуль для подключения к модулю соц.сети.
+    Создаёт сервер, позволяющий обновлять и записывать в редис шеры, учитывая ограничения на кол-во запросов с стороны соцсети
+  """
   defmacro add_social_server do
     quote do
       use GenServer
@@ -30,7 +33,7 @@ defmodule Viralligator.ShareServer do
 
       def handle_cast({:start_loop}, urls) do
         urls |>
-        Enum.map(&RateLimitter.rate_loop(share_function, &1, 3, 0))
+        Enum.map(&RateLimitter.rate_loop(share_function, &1, @rate_limit, 0))
         {:noreply, update_links}
       end
 
@@ -39,10 +42,9 @@ defmodule Viralligator.ShareServer do
       end
 
       defp update_share(url) do
-        shares = Handler.shares_by_url(url)
-        query = ["SADD", "test:struct"] ++ [shares.url, shares.shares]
-        IO.inspect query
-        # RedisClient.query(query)
+        shares = Handler.shares_by_url(url, @social_name)
+        query = ["HSET", "shares:url:#{@social_name}", url, shares.shares.count]
+        RedisClient.query(query)
       end
     end
   end

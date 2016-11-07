@@ -5,6 +5,7 @@ defmodule Viralligator.ShareService do
   alias Viralligator.Models.Share
 
   def shares(url), do: list_services |> Enum.map(&wrap_sharing(&1, url))
+  def shares(url, service), do: wrap_sharing(service, url)
 
   def call(mod, url) do
     Module.concat(Viralligator.ShareService, mod)

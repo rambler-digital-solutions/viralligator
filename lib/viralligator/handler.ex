@@ -52,6 +52,14 @@ defmodule Viralligator.Handler do
   end
 
   @doc """
+  Получение шаров по конкретному урлу для конкретной соц. сети
+  """
+  def shares_by_url(url, social_name) do
+    binary_url = url |> IO.iodata_to_binary |> UriStringCanonical.canonical
+    %Sharing{url: binary_url, shares: ShareService.shares(url, social_name)}
+  end
+
+  @doc """
   Список урлов по тэгам
   """
   def urls_by_tags(tags \\ []) do

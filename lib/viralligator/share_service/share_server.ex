@@ -1,9 +1,9 @@
-defmodule Viralligator.ShareServer do
+defmodule Viralligator.ShareService.ShareServer do
   @doc """
     Модуль для подключения к модулю соц.сети.
     Создаёт сервер, позволяющий обновлять и записывать в редис шеры, учитывая ограничения на кол-во запросов с стороны соцсети
   """
-  defmacro add_social_server do
+  defmacro __using__(_) do
     quote do
       use GenServer
 
@@ -32,8 +32,8 @@ defmodule Viralligator.ShareServer do
       end
 
       def handle_cast({:start_loop}, urls) do
-        urls |>
-        Enum.map(&RateLimitter.rate_loop(share_function, &1, @rate_limit, 0))
+        urls
+        |> Enum.map(&RateLimitter.rate_loop(share_function, &1, @rate_limit, 0))
         {:noreply, update_links}
       end
 

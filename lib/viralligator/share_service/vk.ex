@@ -7,8 +7,7 @@ defmodule Viralligator.ShareService.Vk do
   @social_name "Vk"
   @rate_limit 3
 
-  require Viralligator.ShareServer
-  Viralligator.ShareServer.add_social_server
+  use Viralligator.ShareService.ShareServer
 
   def process_url(url) do
     "http://vk.com/share.php?act=count&url=" <> url

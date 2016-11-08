@@ -7,8 +7,7 @@ defmodule Viralligator.ShareService.Fb do
   @social_name "Fb"
   @rate_limit 5
 
-  require Viralligator.ShareServer
-  Viralligator.ShareServer.add_social_server
+  use Viralligator.ShareService.ShareServer
 
   def process_url(url) do
     "https://graph.facebook.com/?id="

@@ -7,9 +7,7 @@ defmodule Viralligator.ShareService.Gplus do
   @social_name "Gplus"
   @rate_limit 5
 
-  require Viralligator.ShareServer
-  Viralligator.ShareServer.add_social_server
-
+  use Viralligator.ShareService.ShareServer
 
   def process_url(url) do
     "https://plusone.google.com/_/+1/fastbutton?url=" <> url

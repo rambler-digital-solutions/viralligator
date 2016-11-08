@@ -32,13 +32,13 @@ defmodule Viralligator.ShareService.ShareServer do
       end
 
       def handle_cast({:start_loop}, urls) do
-        urls
-        |> Enum.map(&RateLimitter.rate_loop(share_function, &1, @rate_limit, 0))
+        urls |> Enum.map(&rate_url(&1))
+        
         {:noreply, update_links}
       end
 
-      defp share_function do
-        &update_share/1
+      defp rate_url(url) do
+        RateLimitter.rate_loop(&update_share/1, url, @rate_limit, 0)
       end
 
       defp update_share(url) do

@@ -11,6 +11,7 @@ defmodule Viralligator.Mixfile do
      preferred_cli_env: [coveralls: :test],
      compilers: [:thrift | Mix.compilers],
      thrift_files: Mix.Utils.extract_files(["thrift"], [:thrift]),
+     docs: [ main: "Viralligator", extras: ["README.md"]],
      deps: deps()]
   end
 
@@ -43,6 +44,7 @@ defmodule Viralligator.Mixfile do
       {:cachex, "~> 2.0"},
       {:edeliver, "~> 1.4.0"},
       {:distillery, ">= 0.8.0", warn_missing: false},
+      {:ex_doc, "~> 0.14", only: :dev},
       {:excoveralls, "~> 0.5", only: :test},
     ]
   end

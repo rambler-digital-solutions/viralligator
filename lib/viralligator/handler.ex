@@ -80,6 +80,15 @@ defmodule Viralligator.Handler do
   end
 
   @doc """
+  Получение общего количества шеров
+  """
+  def total_shares(url) do
+    # ShareService.list_services
+    # |> Enum.map(&ShareService.social_module(&1))
+    # |> Enum.map(&(&1.get_shares))
+  end
+
+  @doc """
   Обработка ошибок
   """
   def handle_error(b, a), do: IO.puts "Error #{a} -> #{b}!!!"

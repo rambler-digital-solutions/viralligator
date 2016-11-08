@@ -10,6 +10,8 @@ defmodule Viralligator.ShareService.ShareServer do
       alias Viralligator.RedisClient
       alias Viralligator.Handler
 
+      @avaliable_socials []
+
       def	init(:ok, server_pid, initial_state) do
         {:ok, nil}
       end
@@ -27,13 +29,20 @@ defmodule Viralligator.ShareService.ShareServer do
         GenServer.cast(__MODULE__, {:start_loop})
       end
 
+      def get_shares do
+        tl(RedisClient.query(["ZSCAN", "shares:url:#{@social_name}", "0"]))
+        |> List.flatten
+        |> Enum.chunk(2)
+        |> Enum.map(&(List.to_tuple(&1)))
+        |> Enum.into(%{})
+      end
+
       def handle_cast({:update_links}, urls) do
         {:noreply, Handler.urls_by_tags}
       end
 
       def handle_cast({:start_loop}, urls) do
         urls |> Enum.map(&rate_url(&1))
-        
         {:noreply, update_links}
       end
 
@@ -43,7 +52,7 @@ defmodule Viralligator.ShareService.ShareServer do
 
       defp update_share(url) do
         shares = Handler.shares_by_url(url, @social_name)
-        query = ["HSET", "shares:url:#{@social_name}", url, shares.shares.count]
+        query = ["ZADD", "shares:url:#{@social_name}", shares.shares.count, url]
         RedisClient.query(query)
       end
     end

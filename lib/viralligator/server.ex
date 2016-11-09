@@ -12,6 +12,7 @@ defmodule Viralligator.Server do
       publish: &Handler.publish/2,
       sharings: &Handler.sharings/1,
       shares_by_url: &Handler.shares_by_url/1
+      total_shares: &Handler.total_shares/1
     ],
     server: {:thrift_socket_server,
               port: 2112,

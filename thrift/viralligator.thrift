@@ -12,4 +12,5 @@ service Viralligator {
   void publish(1: string url, 2: list<string> tags);
   list<Sharing> sharings(1: list<string> tags);
   Sharing shares_by_url(1: string url);
+  i64 total_shares(1: string url);
 }

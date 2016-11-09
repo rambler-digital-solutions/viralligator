@@ -26,8 +26,7 @@ defmodule Viralligator.Handler do
   """
   def publish(url, tags \\ []) do
     url
-    |> IO.iodata_to_binary
-    |> UriStringCanonical.canonical
+    |> normalize_url
     |> (&write_to_redis_query(&1, tags ++ ["viralligator"])).()
     |> RedisClient.query_pipe
     nil
@@ -47,16 +46,16 @@ defmodule Viralligator.Handler do
   Получение шаров по конкретному урлу
   """
   def shares_by_url(url) do
-    binary_url = url |> IO.iodata_to_binary |> UriStringCanonical.canonical
-    %Sharing{url: binary_url, shares: ShareService.shares(url)}
+    binary_url = normalize_url(url)
+    %Sharing{url: binary_url, shares: ShareService.shares(binary_url)}
   end
 
   @doc """
   Получение шаров по конкретному урлу для конкретной соц. сети
   """
   def shares_by_url(url, social_name) do
-    binary_url = url |> IO.iodata_to_binary |> UriStringCanonical.canonical
-    %Sharing{url: binary_url, shares: ShareService.shares(url, social_name)}
+    binary_url = normalize_url(url)
+    %Sharing{url: binary_url, shares: ShareService.shares(binary_url, social_name)}
   end
 
   @doc """
@@ -83,11 +82,13 @@ defmodule Viralligator.Handler do
   Получение общего количества шеров
   """
   def total_shares(url) do
+    binary_url = normalize_url(url)
+
     ShareService.list_services
     |> Stream.map(&ShareService.social_module(&1))
-    |> Stream.map(&(&1.get_shares))
-    |> Stream.reject(&(!Map.has_key?(&1, url)))
-    |> Enum.reduce(0, &(&1[url] + &2))
+    |> Stream.map(fn service -> service.get_shares end)
+    |> Stream.reject(fn shares -> !Map.has_key?(shares, binary_url) end)
+    |> Enum.reduce(0, &(&1[binary_url] + &2))
   end
 
   @doc """
@@ -104,4 +105,7 @@ defmodule Viralligator.Handler do
 
     tags_query ++ [["EXPIRE", @redis_namespace <> binary_url, @ttl]]
   end
+
+  defp normalize_url(url), do:
+    url |> IO.iodata_to_binary |> UriStringCanonical.canonical
 end

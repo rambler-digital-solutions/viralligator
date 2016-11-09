@@ -48,7 +48,7 @@ defmodule Viralligator.ShareService.ShareServer do
       end
 
       def handle_cast({:start_loop}, urls) do
-        urls |> Enum.map(&rate_url(&1))
+        urls |> Enum.each(&rate_url(&1))
         {:noreply, update_links}
       end
 

@@ -20,6 +20,9 @@ Code genaration for Viralligator Server and Client Libs
   - `mix deps.get`
   - `mix`
 
+## Generate docs
+  - `mix docs`
+
 All generated elixir sources should be in `src` direcotry
 
 ## Ruby Client Code

@@ -19,37 +19,37 @@ defmodule Viralligator.ShareService.ShareServer do
 
       def start_link(_state \\ []) do
         GenServer.start_link(__MODULE__, [], name: __MODULE__)
-        update_links
-      end
-
-      def update_links do
-        GenServer.cast(__MODULE__, {:update_links})
+        start_loop
       end
 
       def start_loop do
         GenServer.cast(__MODULE__, {:start_loop})
+        start_loop
       end
 
       @doc """
         Метод возвращает шары в виде %{url: count}
       """
       def get_shares do
+        get_sorted_shares
+        |> Enum.into(%{})
+      end
+
+      @doc """
+       Метод возвращает упорядоченные шеры в виде [{url, count}]
+      """
+      def get_sorted_shares do
         shares = tl(RedisClient.query(["ZSCAN", "shares:url:#{@social_name}", "0"]))
         shares
         |> List.flatten
         |> Stream.chunk(2)
         |> Stream.map(&(List.to_tuple(&1)))
-        |> Stream.map(&({elem(&1, 0), String.to_integer elem(&1, 1)}))
-        |> Enum.into(%{})
+        |> Enum.map(&({elem(&1,0), String.to_integer elem(&1,1)}))
       end
 
-      def handle_cast({:update_links}, urls) do
+      def handle_cast({:start_loop}, state) do
+        Handler.urls_by_tags |> Enum.each(&rate_url(&1))
         {:noreply, Handler.urls_by_tags}
-      end
-
-      def handle_cast({:start_loop}, urls) do
-        urls |> Enum.each(&rate_url(&1))
-        {:noreply, update_links}
       end
 
       defp rate_url(url) do
@@ -61,6 +61,7 @@ defmodule Viralligator.ShareService.ShareServer do
         query = ["ZADD", "shares:url:#{@social_name}", shares.shares.count, url]
         RedisClient.query(query)
       end
+
     end
   end
 end

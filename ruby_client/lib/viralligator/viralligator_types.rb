@@ -41,3 +41,4 @@ class Sharing
 
   ::Thrift::Struct.generate_accessors self
 end
+

@@ -10,13 +10,6 @@
 
 -export([struct_info/1, struct_info_ext/1]).
 
-struct_info('Topic') ->
-  {struct, [{1, i64},
-          {2, string},
-          {3, i32},
-          {4, {map, string, i64}}]}
-;
-
 struct_info('Share') ->
   {struct, [{1, string},
           {2, i64}]}
@@ -28,13 +21,6 @@ struct_info('Sharing') ->
 ;
 
 struct_info(_) -> erlang:error(function_clause).
-
-struct_info_ext('Topic') ->
-  {struct, [{1, required, i64, 'id', undefined},
-          {2, required, string, 'url', undefined},
-          {3, optional, i32, 'state',   0},
-          {4, optional, {map, string, i64}, 'sharings', dict:new()}]}
-;
 
 struct_info_ext('Share') ->
   {struct, [{1, undefined, string, 'social', undefined},

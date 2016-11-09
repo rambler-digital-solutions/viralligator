@@ -1,7 +1,8 @@
 defmodule Viralligator.ShareService.ShareServer do
-  @doc """
+  @moduledoc """
     Модуль для подключения к модулю соц.сети.
-    Создаёт сервер, позволяющий обновлять и записывать в редис шеры, учитывая ограничения на кол-во запросов с стороны соцсети
+    Создаёт сервер, позволяющий обновлять и записывать в редис шеры,
+    учитывая ограничения на кол-во запросов с стороны соцсети
   """
   defmacro __using__(_) do
     quote do
@@ -12,7 +13,7 @@ defmodule Viralligator.ShareService.ShareServer do
 
       @avaliable_socials []
 
-      def	init(:ok, server_pid, initial_state) do
+      def init(:ok, server_pid, initial_state) do
         {:ok, nil}
       end
 
@@ -33,11 +34,12 @@ defmodule Viralligator.ShareService.ShareServer do
         Метод возвращает шары в виде %{url: count}
       """
       def get_shares do
-        tl(RedisClient.query(["ZSCAN", "shares:url:#{@social_name}", "0"]))
+        shares = tl(RedisClient.query(["ZSCAN", "shares:url:#{@social_name}", "0"]))
+        shares
         |> List.flatten
         |> Stream.chunk(2)
         |> Stream.map(&(List.to_tuple(&1)))
-        |> Stream.map(&( { elem(&1,0), String.to_integer elem(&1,1) } ))
+        |> Stream.map(&({elem(&1,0), String.to_integer elem(&1,1)}))
         |> Enum.into(%{})
       end
 

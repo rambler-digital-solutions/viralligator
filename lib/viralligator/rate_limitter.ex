@@ -18,7 +18,7 @@ defmodule RateLimitter do
     end
     stop_time = :os.system_time
 
-    past_time = (stop_time - start_time) / 100000
+    past_time = (stop_time - start_time) / 100_000
 
     if past_time < sleeping_time, do: :timer.sleep(sleeping_time)
 

@@ -86,7 +86,7 @@ defmodule Viralligator.Handler do
     ShareService.list_services
     |> Stream.map(&ShareService.social_module(&1))
     |> Stream.map(&(&1.get_shares))
-    |> Stream.reject(&( !Map.has_key?(&1, url)))
+    |> Stream.reject(&(!Map.has_key?(&1, url)))
     |> Enum.reduce(0, &(&1[url] + &2))
   end
 

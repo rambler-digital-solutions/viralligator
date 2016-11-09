@@ -83,9 +83,11 @@ defmodule Viralligator.Handler do
   Получение общего количества шеров
   """
   def total_shares(url) do
-    # ShareService.list_services
-    # |> Enum.map(&ShareService.social_module(&1))
-    # |> Enum.map(&(&1.get_shares))
+    ShareService.list_services
+    |> Stream.map(&ShareService.social_module(&1))
+    |> Stream.map(&(&1.get_shares))
+    |> Stream.reject(&( !Map.has_key?(&1, url)))
+    |> Enum.reduce(0, &(&1[url] + &2))
   end
 
   @doc """

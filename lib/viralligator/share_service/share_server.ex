@@ -29,12 +29,15 @@ defmodule Viralligator.ShareService.ShareServer do
         GenServer.cast(__MODULE__, {:start_loop})
       end
 
-      # TODO: перевести значения в интеджер
+      @doc """
+        Метод возвращает шары в виде %{url: count}
+      """
       def get_shares do
         tl(RedisClient.query(["ZSCAN", "shares:url:#{@social_name}", "0"]))
         |> List.flatten
         |> Stream.chunk(2)
         |> Stream.map(&(List.to_tuple(&1)))
+        |> Stream.map(&( { elem(&1,0), String.to_integer elem(&1,1) } ))
         |> Enum.into(%{})
       end
 

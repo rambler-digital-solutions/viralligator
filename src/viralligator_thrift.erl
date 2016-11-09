@@ -42,5 +42,14 @@ function_info('shares_by_url', reply_type) ->
 function_info('shares_by_url', exceptions) ->
   {struct, []}
 ;
+% total_shares(This, Url)
+function_info('total_shares', params_type) ->
+  {struct, [{1, string}]}
+;
+function_info('total_shares', reply_type) ->
+  i64;
+function_info('total_shares', exceptions) ->
+  {struct, []}
+;
 function_info(_Func, _Info) -> erlang:error(function_clause).
 

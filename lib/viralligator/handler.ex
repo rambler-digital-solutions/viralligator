@@ -26,7 +26,7 @@ defmodule Viralligator.Handler do
   """
   def publish(url, tags \\ []) do
     url
-    |> normalize_url
+    |> UriStringCanonical.binary_canonical
     |> (&write_to_redis_query(&1, tags ++ ["viralligator"])).()
     |> RedisClient.query_pipe
     nil
@@ -46,7 +46,7 @@ defmodule Viralligator.Handler do
   Получение шаров по конкретному урлу
   """
   def shares_by_url(url) do
-    binary_url = normalize_url(url)
+    binary_url = UriStringCanonical.binary_canonical(url)
     %Sharing{url: binary_url, shares: ShareService.shares(binary_url)}
   end
 
@@ -54,7 +54,7 @@ defmodule Viralligator.Handler do
   Получение шаров по конкретному урлу для конкретной соц. сети
   """
   def shares_by_url(url, social_name) do
-    binary_url = normalize_url(url)
+    binary_url = UriStringCanonical.binary_canonical(url)
     %Sharing{url: binary_url, shares: ShareService.shares(binary_url, social_name)}
   end
 
@@ -82,7 +82,7 @@ defmodule Viralligator.Handler do
   Получение общего количества шеров
   """
   def total_shares(url) do
-    binary_url = normalize_url(url)
+    binary_url = UriStringCanonical.binary_canonical(url)
 
     ShareService.list_services
     |> Stream.map(&ShareService.social_module(&1))
@@ -105,7 +105,4 @@ defmodule Viralligator.Handler do
 
     tags_query ++ [["EXPIRE", @redis_namespace <> binary_url, @ttl]]
   end
-
-  defp normalize_url(url), do:
-    url |> IO.iodata_to_binary |> UriStringCanonical.canonical
 end

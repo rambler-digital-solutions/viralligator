@@ -39,13 +39,12 @@ defmodule Viralligator.ShareService.ShareServer do
        Метод возвращает упорядоченные шеры в виде [{url, count}]
       """
       def get_sorted_shares do
-        shares = tl(RedisClient.query(["ZREVRANGE",
-          "shares:url:#{@social_name}", "0", "-1", "WITHSCORES"]))
+        shares = RedisClient.query(["ZREVRANGE",
+          "shares:url:#{@social_name}", "0", "-1", "WITHSCORES"])
         shares
-        |> List.flatten
         |> Stream.chunk(2)
-        |> Enum.map(&(List.to_tuple(&1)))
-        |> Enum.map(&({elem(&1,1), String.to_integer elem(&1,0)}))
+        |> Stream.map(&(List.to_tuple(&1)))
+        |> Enum.map(&({elem(&1,0), String.to_integer elem(&1,1)}))
       end
 
       def handle_cast({:start_loop}, state) do

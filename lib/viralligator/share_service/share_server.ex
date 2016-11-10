@@ -14,12 +14,12 @@ defmodule Viralligator.ShareService.ShareServer do
       @avaliable_socials []
 
       def init(:ok, server_pid, initial_state) do
+        start_loop
         {:ok, nil}
       end
 
       def start_link(_state \\ []) do
         GenServer.start_link(__MODULE__, [], name: __MODULE__)
-        start_loop
       end
 
       def start_loop do

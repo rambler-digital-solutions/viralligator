@@ -16,6 +16,10 @@ defmodule Viralligator do
       worker(Viralligator.Server, []),
       worker(Viralligator.RedisClient, []),
       worker(Viralligator.Handler, []),
+      worker(Viralligator.ShareService.Vk, []),
+      worker(Viralligator.ShareService.Fb, []),
+      worker(Viralligator.ShareService.Gplus, []),
+      worker(Viralligator.ShareService.Ok, []),
       worker(Cachex, [:http_cache, [default_ttl: :timer.minutes(15)]])
     ]
 

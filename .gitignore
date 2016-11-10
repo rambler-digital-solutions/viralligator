@@ -20,3 +20,4 @@ Mnesia.nonode@nohost
 .deliver/releases/
 ruby_client/pkg
 /log
+*.swp

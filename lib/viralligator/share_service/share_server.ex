@@ -13,18 +13,13 @@ defmodule Viralligator.ShareService.ShareServer do
 
       @avaliable_socials []
 
-      def init(:ok, server_pid, initial_state) do
-        start_loop
+      def init(args) do
+        GenServer.cast(__MODULE__, {:start_loop})
         {:ok, nil}
       end
 
       def start_link(_state \\ []) do
         GenServer.start_link(__MODULE__, [], name: __MODULE__)
-      end
-
-      def start_loop do
-        GenServer.cast(__MODULE__, {:start_loop})
-        start_loop
       end
 
       @doc """
@@ -49,6 +44,7 @@ defmodule Viralligator.ShareService.ShareServer do
 
       def handle_cast({:start_loop}, state) do
         Handler.urls_by_tags |> Enum.each(&rate_url(&1))
+        GenServer.cast(__MODULE__, {:start_loop})
         {:noreply, Handler.urls_by_tags}
       end
 

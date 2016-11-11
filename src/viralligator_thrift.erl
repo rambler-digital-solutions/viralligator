@@ -51,5 +51,41 @@ function_info('total_shares', reply_type) ->
 function_info('total_shares', exceptions) ->
   {struct, []}
 ;
+% fb_shares(This)
+function_info('fb_shares', params_type) ->
+  {struct, []}
+;
+function_info('fb_shares', reply_type) ->
+  {list, {struct, {'viralligator_types', 'Sharing'}}};
+function_info('fb_shares', exceptions) ->
+  {struct, []}
+;
+% ok_shares(This)
+function_info('ok_shares', params_type) ->
+  {struct, []}
+;
+function_info('ok_shares', reply_type) ->
+  {list, {struct, {'viralligator_types', 'Sharing'}}};
+function_info('ok_shares', exceptions) ->
+  {struct, []}
+;
+% vk_shares(This)
+function_info('vk_shares', params_type) ->
+  {struct, []}
+;
+function_info('vk_shares', reply_type) ->
+  {list, {struct, {'viralligator_types', 'Sharing'}}};
+function_info('vk_shares', exceptions) ->
+  {struct, []}
+;
+% gplus_shares(This)
+function_info('gplus_shares', params_type) ->
+  {struct, []}
+;
+function_info('gplus_shares', reply_type) ->
+  {list, {struct, {'viralligator_types', 'Sharing'}}};
+function_info('gplus_shares', exceptions) ->
+  {struct, []}
+;
 function_info(_Func, _Info) -> erlang:error(function_clause).
 

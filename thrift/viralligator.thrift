@@ -13,4 +13,9 @@ service Viralligator {
   list<Sharing> sharings(1: list<string> tags);
   Sharing shares_by_url(1: string url);
   i64 total_shares(1: string url);
+	list<Sharing> fb_shares();
+	list<Sharing> ok_shares();
+	list<Sharing> vk_shares();
+	list<Sharing> gplus_shares();
+
 }

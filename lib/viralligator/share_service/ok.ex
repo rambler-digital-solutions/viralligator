@@ -4,6 +4,11 @@ defmodule Viralligator.ShareService.Ok do
   """
   use HTTPotion.{Base, Cache}
 
+  @social_name "Ok"
+  @rate_limit 5
+
+  use Viralligator.ShareService.ShareServer
+
   def process_url(url) do
     "https://connect.ok.ru/dk?st.cmd=extLike&uid=odklcnt0&ref=" <> url
   end

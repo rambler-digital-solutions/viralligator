@@ -1,15 +1,3 @@
-enum TopicState {
-  UNPUBLISHED,
-  PUBLISHED
-}
-
-struct Topic {
-  1: required i64 id;
-  2: required string url;
-  3: optional TopicState state = TopicState.UNPUBLISHED;
-  4: optional map<string, i64> sharings;
-}
-
 struct Share {
   1: string social;
   2: i64 count;
@@ -24,4 +12,10 @@ service Viralligator {
   void publish(1: string url, 2: list<string> tags);
   list<Sharing> sharings(1: list<string> tags);
   Sharing shares_by_url(1: string url);
+  i64 total_shares(1: string url);
+	list<Sharing> fb_shares();
+	list<Sharing> ok_shares();
+	list<Sharing> vk_shares();
+	list<Sharing> gplus_shares();
+
 }

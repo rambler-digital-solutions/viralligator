@@ -4,6 +4,11 @@ defmodule Viralligator.ShareService.Fb do
   """
   use HTTPotion.{Base, Cache}
 
+  @social_name "Fb"
+  @rate_limit 5
+
+  use Viralligator.ShareService.ShareServer
+
   def process_url(url) do
     "https://graph.facebook.com/?id="
       <> url

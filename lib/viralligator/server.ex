@@ -4,6 +4,10 @@ defmodule Viralligator.Server do
   """
 
   alias Viralligator.Handler
+  alias Viralligator.ShareService.Fb
+  alias Viralligator.ShareService.Vk
+  alias Viralligator.ShareService.Ok
+  alias Viralligator.ShareService.Gplus
 
   use Riffed.Server,
     service: :viralligator_thrift,
@@ -11,7 +15,12 @@ defmodule Viralligator.Server do
     functions: [
       publish: &Handler.publish/2,
       sharings: &Handler.sharings/1,
-      shares_by_url: &Handler.shares_by_url/1
+      shares_by_url: &Handler.shares_by_url/1,
+      total_shares: &Handler.total_shares/1,
+      fb_shares: &Fb.get_sorted_shares/0,
+      vk_shares: &Vk.get_sorted_shares/0,
+      ok_shares: &Ok.get_sorted_shares/0,
+      gplus_shares: &Gplus.get_sorted_shares/0
     ],
     server: {:thrift_socket_server,
               port: 2112,

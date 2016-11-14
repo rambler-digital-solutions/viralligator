@@ -55,6 +55,21 @@ module Viralligator
       raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'shares_by_url failed: unknown result')
     end
 
+    def total_shares(url)
+      send_total_shares(url)
+      return recv_total_shares()
+    end
+
+    def send_total_shares(url)
+      send_message('total_shares', Total_shares_args, :url => url)
+    end
+
+    def recv_total_shares()
+      result = receive_message(Total_shares_result)
+      return result.success unless result.success.nil?
+      raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'total_shares failed: unknown result')
+    end
+
   end
 
   class Processor
@@ -79,6 +94,13 @@ module Viralligator
       result = Shares_by_url_result.new()
       result.success = @handler.shares_by_url(args.url)
       write_result(result, oprot, 'shares_by_url', seqid)
+    end
+
+    def process_total_shares(seqid, iprot, oprot)
+      args = read_args(iprot, Total_shares_args)
+      result = Total_shares_result.new()
+      result.success = @handler.total_shares(args.url)
+      write_result(result, oprot, 'total_shares', seqid)
     end
 
   end
@@ -172,6 +194,38 @@ module Viralligator
 
     FIELDS = {
       SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => ::Sharing}
+    }
+
+    def struct_fields; FIELDS; end
+
+    def validate
+    end
+
+    ::Thrift::Struct.generate_accessors self
+  end
+
+  class Total_shares_args
+    include ::Thrift::Struct, ::Thrift::Struct_Union
+    URL = 1
+
+    FIELDS = {
+      URL => {:type => ::Thrift::Types::STRING, :name => 'url'}
+    }
+
+    def struct_fields; FIELDS; end
+
+    def validate
+    end
+
+    ::Thrift::Struct.generate_accessors self
+  end
+
+  class Total_shares_result
+    include ::Thrift::Struct, ::Thrift::Struct_Union
+    SUCCESS = 0
+
+    FIELDS = {
+      SUCCESS => {:type => ::Thrift::Types::I64, :name => 'success'}
     }
 
     def struct_fields; FIELDS; end

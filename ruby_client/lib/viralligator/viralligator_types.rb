@@ -24,6 +24,24 @@ class Share
   ::Thrift::Struct.generate_accessors self
 end
 
+class TotalShare
+  include ::Thrift::Struct, ::Thrift::Struct_Union
+  URL = 1
+  TOTALCOUNT = 2
+
+  FIELDS = {
+    URL => {:type => ::Thrift::Types::STRING, :name => 'url'},
+    TOTALCOUNT => {:type => ::Thrift::Types::I64, :name => 'totalCount'}
+  }
+
+  def struct_fields; FIELDS; end
+
+  def validate
+  end
+
+  ::Thrift::Struct.generate_accessors self
+end
+
 class Sharing
   include ::Thrift::Struct, ::Thrift::Struct_Union
   URL = 1

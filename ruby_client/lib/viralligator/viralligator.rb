@@ -70,6 +70,66 @@ module Viralligator
       raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'total_shares failed: unknown result')
     end
 
+    def fb_shares()
+      send_fb_shares()
+      return recv_fb_shares()
+    end
+
+    def send_fb_shares()
+      send_message('fb_shares', Fb_shares_args)
+    end
+
+    def recv_fb_shares()
+      result = receive_message(Fb_shares_result)
+      return result.success unless result.success.nil?
+      raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'fb_shares failed: unknown result')
+    end
+
+    def ok_shares()
+      send_ok_shares()
+      return recv_ok_shares()
+    end
+
+    def send_ok_shares()
+      send_message('ok_shares', Ok_shares_args)
+    end
+
+    def recv_ok_shares()
+      result = receive_message(Ok_shares_result)
+      return result.success unless result.success.nil?
+      raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'ok_shares failed: unknown result')
+    end
+
+    def vk_shares()
+      send_vk_shares()
+      return recv_vk_shares()
+    end
+
+    def send_vk_shares()
+      send_message('vk_shares', Vk_shares_args)
+    end
+
+    def recv_vk_shares()
+      result = receive_message(Vk_shares_result)
+      return result.success unless result.success.nil?
+      raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'vk_shares failed: unknown result')
+    end
+
+    def gplus_shares()
+      send_gplus_shares()
+      return recv_gplus_shares()
+    end
+
+    def send_gplus_shares()
+      send_message('gplus_shares', Gplus_shares_args)
+    end
+
+    def recv_gplus_shares()
+      result = receive_message(Gplus_shares_result)
+      return result.success unless result.success.nil?
+      raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'gplus_shares failed: unknown result')
+    end
+
   end
 
   class Processor
@@ -101,6 +161,34 @@ module Viralligator
       result = Total_shares_result.new()
       result.success = @handler.total_shares(args.url)
       write_result(result, oprot, 'total_shares', seqid)
+    end
+
+    def process_fb_shares(seqid, iprot, oprot)
+      args = read_args(iprot, Fb_shares_args)
+      result = Fb_shares_result.new()
+      result.success = @handler.fb_shares()
+      write_result(result, oprot, 'fb_shares', seqid)
+    end
+
+    def process_ok_shares(seqid, iprot, oprot)
+      args = read_args(iprot, Ok_shares_args)
+      result = Ok_shares_result.new()
+      result.success = @handler.ok_shares()
+      write_result(result, oprot, 'ok_shares', seqid)
+    end
+
+    def process_vk_shares(seqid, iprot, oprot)
+      args = read_args(iprot, Vk_shares_args)
+      result = Vk_shares_result.new()
+      result.success = @handler.vk_shares()
+      write_result(result, oprot, 'vk_shares', seqid)
+    end
+
+    def process_gplus_shares(seqid, iprot, oprot)
+      args = read_args(iprot, Gplus_shares_args)
+      result = Gplus_shares_result.new()
+      result.success = @handler.gplus_shares()
+      write_result(result, oprot, 'gplus_shares', seqid)
     end
 
   end
@@ -161,7 +249,7 @@ module Viralligator
     SUCCESS = 0
 
     FIELDS = {
-      SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => ::Sharing}}
+      SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => ::TotalShare}}
     }
 
     def struct_fields; FIELDS; end
@@ -226,6 +314,130 @@ module Viralligator
 
     FIELDS = {
       SUCCESS => {:type => ::Thrift::Types::I64, :name => 'success'}
+    }
+
+    def struct_fields; FIELDS; end
+
+    def validate
+    end
+
+    ::Thrift::Struct.generate_accessors self
+  end
+
+  class Fb_shares_args
+    include ::Thrift::Struct, ::Thrift::Struct_Union
+
+    FIELDS = {
+
+    }
+
+    def struct_fields; FIELDS; end
+
+    def validate
+    end
+
+    ::Thrift::Struct.generate_accessors self
+  end
+
+  class Fb_shares_result
+    include ::Thrift::Struct, ::Thrift::Struct_Union
+    SUCCESS = 0
+
+    FIELDS = {
+      SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => ::Sharing}}
+    }
+
+    def struct_fields; FIELDS; end
+
+    def validate
+    end
+
+    ::Thrift::Struct.generate_accessors self
+  end
+
+  class Ok_shares_args
+    include ::Thrift::Struct, ::Thrift::Struct_Union
+
+    FIELDS = {
+
+    }
+
+    def struct_fields; FIELDS; end
+
+    def validate
+    end
+
+    ::Thrift::Struct.generate_accessors self
+  end
+
+  class Ok_shares_result
+    include ::Thrift::Struct, ::Thrift::Struct_Union
+    SUCCESS = 0
+
+    FIELDS = {
+      SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => ::Sharing}}
+    }
+
+    def struct_fields; FIELDS; end
+
+    def validate
+    end
+
+    ::Thrift::Struct.generate_accessors self
+  end
+
+  class Vk_shares_args
+    include ::Thrift::Struct, ::Thrift::Struct_Union
+
+    FIELDS = {
+
+    }
+
+    def struct_fields; FIELDS; end
+
+    def validate
+    end
+
+    ::Thrift::Struct.generate_accessors self
+  end
+
+  class Vk_shares_result
+    include ::Thrift::Struct, ::Thrift::Struct_Union
+    SUCCESS = 0
+
+    FIELDS = {
+      SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => ::Sharing}}
+    }
+
+    def struct_fields; FIELDS; end
+
+    def validate
+    end
+
+    ::Thrift::Struct.generate_accessors self
+  end
+
+  class Gplus_shares_args
+    include ::Thrift::Struct, ::Thrift::Struct_Union
+
+    FIELDS = {
+
+    }
+
+    def struct_fields; FIELDS; end
+
+    def validate
+    end
+
+    ::Thrift::Struct.generate_accessors self
+  end
+
+  class Gplus_shares_result
+    include ::Thrift::Struct, ::Thrift::Struct_Union
+    SUCCESS = 0
+
+    FIELDS = {
+      SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => ::Sharing}}
     }
 
     def struct_fields; FIELDS; end

@@ -15,6 +15,11 @@ struct_info('Share') ->
           {2, i64}]}
 ;
 
+struct_info('TotalShare') ->
+  {struct, [{1, string},
+          {2, i64}]}
+;
+
 struct_info('Sharing') ->
   {struct, [{1, string},
           {2, {list, {struct, {'viralligator_types', 'Share'}}}}]}
@@ -24,6 +29,11 @@ struct_info(_) -> erlang:error(function_clause).
 
 struct_info_ext('Share') ->
   {struct, [{1, undefined, string, 'social', undefined},
+          {2, undefined, i64, 'count', undefined}]}
+;
+
+struct_info_ext('TotalShare') ->
+  {struct, [{1, undefined, string, 'url', undefined},
           {2, undefined, i64, 'count', undefined}]}
 ;
 

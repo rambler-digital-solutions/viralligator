@@ -5,6 +5,7 @@ defmodule Viralligator.Handler do
   use GenServer
 
   alias Viralligator.Models.Sharing
+  alias Viralligator.Models.TotalShare
   alias Viralligator.ShareService
   alias Viralligator.RedisClient
 
@@ -39,8 +40,8 @@ defmodule Viralligator.Handler do
     tags
     |> Enum.map(&to_string/1)
     |> urls_by_tags
-    |> Enum.map(fn url -> %TotalShare{url, total_shares(url)} end)
-    |> Enum.sort(&(elem(&1, 1) > elem(&2, 1)))
+    |> Enum.map(fn url -> %TotalShare{url: url, count: total_shares(url)} end)
+    # |> Enum.sort(fn first, second -> first[:count] > second[:count] end)
   end
 
   @doc """

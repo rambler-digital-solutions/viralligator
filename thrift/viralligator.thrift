@@ -5,7 +5,7 @@ struct Share {
 
 struct TotalShare {
   1: string url;
-  2: i64 totalCount;
+  2: i64 count;
 }
 
 struct Sharing {

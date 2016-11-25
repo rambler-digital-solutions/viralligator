@@ -27,11 +27,11 @@ end
 class TotalShare
   include ::Thrift::Struct, ::Thrift::Struct_Union
   URL = 1
-  TOTALCOUNT = 2
+  COUNT = 2
 
   FIELDS = {
     URL => {:type => ::Thrift::Types::STRING, :name => 'url'},
-    TOTALCOUNT => {:type => ::Thrift::Types::I64, :name => 'totalCount'}
+    COUNT => {:type => ::Thrift::Types::I64, :name => 'count'}
   }
 
   def struct_fields; FIELDS; end

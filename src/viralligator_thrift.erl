@@ -29,7 +29,7 @@ function_info('sharings', params_type) ->
   {struct, [{1, {list, string}}]}
 ;
 function_info('sharings', reply_type) ->
-  {list, {struct, {'viralligator_types', 'Sharing'}}};
+  {list, {struct, {'viralligator_types', 'TotalShare'}}};
 function_info('sharings', exceptions) ->
   {struct, []}
 ;

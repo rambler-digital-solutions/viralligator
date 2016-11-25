@@ -42,6 +42,7 @@ defmodule Viralligator.Handler do
     |> urls_by_tags
     |> Enum.map(fn url -> %TotalShare{url: url, count: total_shares(url)} end)
     |> Enum.sort_by(fn item -> item.count end)
+    |> Enum.reverse
   end
 
   @doc """

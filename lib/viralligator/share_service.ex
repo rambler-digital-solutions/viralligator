@@ -8,9 +8,10 @@ defmodule Viralligator.ShareService do
   def shares(url, service), do: wrap_sharing(service, url)
 
   def call(mod, url) do
-    social_module(mod)
-      .get(url, cache: true)
-      .body |> Integer.parse |> elem(0)
+    case social_module(mod).get(url, cache: true) do
+      %HTTPotion.ErrorResponse{} -> 0
+      resp -> resp.body |> Integer.parse |> elem(0)
+    end
   end
 
   def social_module(mod) do

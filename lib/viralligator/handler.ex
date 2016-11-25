@@ -41,7 +41,7 @@ defmodule Viralligator.Handler do
     |> Enum.map(&to_string/1)
     |> urls_by_tags
     |> Enum.map(fn url -> %TotalShare{url: url, count: total_shares(url)} end)
-    # |> Enum.sort(fn first, second -> first[:count] > second[:count] end)
+    |> Enum.sort_by(fn item -> item.count end)
   end
 
   @doc """

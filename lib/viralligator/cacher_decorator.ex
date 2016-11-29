@@ -2,6 +2,7 @@ defmodule Viralligator.CacherDecorator do
   @moduledoc false
 
   use Decorator.Define, [cache: 1]
+  alias Viralligator.CacherDecorator
 
   @doc """
   Макрос для кеширования ф-ций. Использовать: `@decorator cache(time)`
@@ -14,12 +15,15 @@ defmodule Viralligator.CacherDecorator do
         {:ok, response} -> response
 
         {:missing, _} ->
-          response = unquote(body)
-          Cachex.set(:http_cache, cache_key, response, [ttl: unquote(time)])
-          response
+          CacherDecorator.cache_body(cache_key, unquote(body), unquote(time))
 
         _ -> unquote(body)
       end
     end
+  end
+
+  def cache_body(key, body, time) do
+    Cachex.set(:http_cache, key, body, [ttl: time])
+    body
   end
 end

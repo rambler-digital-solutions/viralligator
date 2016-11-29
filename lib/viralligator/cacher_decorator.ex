@@ -15,7 +15,7 @@ defmodule Viralligator.CacherDecorator do
 
         {:missing, _} ->
           response = unquote(body)
-          Cachex.set(:http_cache, unquote(context), response, [ttl: unquote(time)])
+          Cachex.set(:http_cache, cache_key, response, [ttl: unquote(time)])
           response
 
         _ -> unquote(body)

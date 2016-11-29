@@ -1,8 +1,7 @@
 defmodule Viralligator.CacherDecorator do
-  use Decorator.Define, [cache: 1]
-
   @moduledoc false
 
+  use Decorator.Define, [cache: 1]
 
   @doc """
   Макрос для кеширования ф-ций. Использовать: `@decorator cache(time)`

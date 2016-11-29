@@ -3,6 +3,10 @@ defmodule Viralligator.CacherDecorator do
 
   @moduledoc false
 
+
+  @doc """
+  Макрос для кеширования ф-ций. Использовать: `@decorator cache(time)`
+  """
   def cache(time, body, %{args: [mod, context]}) do
     quote do
       cache_key = unquote(mod) <> unquote(context)

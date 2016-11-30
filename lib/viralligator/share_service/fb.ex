@@ -2,7 +2,7 @@ defmodule Viralligator.ShareService.Fb do
   @moduledoc """
   Модуль для получения шаров с fb.com
   """
-  use HTTPotion.{Base, Cache}
+  use HTTPotion.Base
 
   @social_name "Fb"
   @rate_limit 5

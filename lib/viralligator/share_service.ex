@@ -3,10 +3,12 @@ defmodule Viralligator.ShareService do
   Модуль комбинирующий получение шаров с различных соц.сетей
   """
   alias Viralligator.Models.Share
+  use Viralligator.CacherDecorator
 
   def shares(url), do: list_services |> Enum.map(&wrap_sharing(&1, url))
   def shares(url, service), do: wrap_sharing(service, url)
 
+  @decorate cache(:timer.minutes(15))
   def call(mod, url) do
     case social_module(mod).get(url, cache: true) do
       %HTTPotion.ErrorResponse{} -> 0

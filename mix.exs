@@ -45,6 +45,7 @@ defmodule Viralligator.Mixfile do
       {:edeliver, "~> 1.4.0"},
       {:distillery, ">= 0.8.0", warn_missing: false},
       {:ex_doc, "~> 0.14", only: :dev},
+      {:decorator, "~> 1.0"},
       {:excoveralls, "~> 0.5", only: :test},
     ]
   end

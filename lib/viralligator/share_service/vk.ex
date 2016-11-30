@@ -2,7 +2,7 @@ defmodule Viralligator.ShareService.Vk do
   @moduledoc """
   Модуль для получения шаров с vk.com
   """
-  use HTTPotion.{Base, Cache}
+  use HTTPotion.Base
 
   @social_name "Vk"
   @rate_limit 3

@@ -30,7 +30,7 @@ defmodule Viralligator.Mixfile do
   defp package do
     [
       name: :viralligator,
-      files: ["lib", "thrift", "mix.exs", "config", "README*"],
+      files: ["lib", "thrift", "mix.exs", "config", "VERSION", "README*"],
       maintainers: ["a.antonov@rambler-co.ru", "artem.malyshev@rambler-co.ru",
       "d.zuev@rambler-co.ru", "a.matrynyuk@rambler-co.ru", "stass.german@rambler-co.ru"]
     ]
@@ -43,14 +43,9 @@ defmodule Viralligator.Mixfile do
       {:httpotion, "~> 3.0.2"},
       {:poison, "~> 3.0"},
       {:floki, "~> 0.10.1"},
-      {:credo, "~> 0.4", only: [:dev, :test]},
       {:exredis, ">= 0.2.4"},
       {:cachex, "~> 2.0"},
-      {:edeliver, "~> 1.4.0"},
-      {:distillery, ">= 0.8.0", warn_missing: false},
-      {:ex_doc, "~> 0.14", only: :dev},
       {:decorator, "~> 1.0"},
-      {:excoveralls, "~> 0.5", only: :test},
     ]
   end
 end

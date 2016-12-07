@@ -7,6 +7,13 @@ Content monitoring
 - `mix deps.get`
 - `mix amnesia.create -db Database --disk`
 
+## Configuration
+In your applications config.exs file you need to add new section for customizing viralligator settings:
+```elixir
+config :viralligator,
+  redis_url: "127.0.0.1"
+```
+
 ## Thrift Schemas
 
 Code genaration for Viralligator Server and Client Libs

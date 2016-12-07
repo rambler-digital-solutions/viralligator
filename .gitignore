@@ -18,6 +18,7 @@ erl_crash.dump
 gen-rb
 Mnesia.nonode@nohost
 .deliver/releases/
+.deliver/config
 ruby_client/pkg
 /log
 *.swp

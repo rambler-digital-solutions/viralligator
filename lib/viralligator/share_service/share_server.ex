@@ -1,8 +1,6 @@
 defmodule Viralligator.ShareService.ShareServer do
   @moduledoc """
-    Модуль для подключения к модулю соц.сети.
-    Создаёт сервер, позволяющий обновлять и записывать в редис шеры,
-    учитывая ограничения на кол-во запросов с стороны соцсети
+    Module create a server that allow to update and write shares to redis.
   """
   defmacro __using__(_) do
     quote do
@@ -23,6 +21,7 @@ defmodule Viralligator.ShareService.ShareServer do
       end
 
       @doc """
+        Method return shares i
         Метод возвращает шары в виде %{url: count}
       """
       def get_shares do

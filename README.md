@@ -4,8 +4,22 @@ Content monitoring
 
 ## Installation
 
-- `mix deps.get`
-- `mix amnesia.create -db Database --disk`
+First, add Viralligator to your `mix.exs` dependencies:
+
+```elixir
+def deps do
+  [{:Viralligator, "~> 1.1.0"}]
+end
+```
+
+and run `$ mix deps.get`. Now, list the `:viralligator` application as your
+application dependency:
+
+```elixir
+def application do
+  [applications: [:viralligator]]
+end
+```
 
 ## Configuration
 In your applications config.exs file you need to add new section for customizing viralligator settings:

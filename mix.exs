@@ -32,7 +32,9 @@ defmodule Viralligator.Mixfile do
       name: :viralligator,
       files: ["lib", "thrift", "mix.exs", "config", "VERSION", "README*"],
       maintainers: ["a.antonov@rambler-co.ru", "artem.malyshev@rambler-co.ru",
-      "d.zuev@rambler-co.ru", "a.matrynyuk@rambler-co.ru", "stass.german@rambler-co.ru"]
+      "d.zuev@rambler-co.ru", "a.matrynyuk@rambler-co.ru", "stass.german@rambler-co.ru"],
+      licenses: [],
+      links: []
     ]
   end
 

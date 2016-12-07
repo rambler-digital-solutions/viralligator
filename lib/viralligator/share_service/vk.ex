@@ -2,7 +2,12 @@ defmodule Viralligator.ShareService.Vk do
   @moduledoc """
   Модуль для получения шаров с vk.com
   """
-  use HTTPotion.{Base, Cache}
+  use HTTPotion.Base
+
+  @social_name "Vk"
+  @rate_limit 3
+
+  use Viralligator.ShareService.ShareServer
 
   def process_url(url) do
     "http://vk.com/share.php?act=count&url=" <> url

@@ -6,6 +6,7 @@ Content monitoring
 
 - `mix deps.get`
 - `mix amnesia.create -db Database --disk`
+- `mix run --no-halt`
 
 ## Thrift Schemas
 

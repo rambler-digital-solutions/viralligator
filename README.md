@@ -15,7 +15,6 @@ Code genaration for Viralligator Server and Client Libs
 ## Project structure
   - thrift schemas in `thrift` folder
   - elixir generated code in `src`
-  - ruby generated code in `gen-rb`
 
 ## Elixir Server Code
   - `mix deps.get`

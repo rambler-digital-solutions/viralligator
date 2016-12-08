@@ -1,7 +1,7 @@
 use Mix.Config
 
-config :exredis,
-  url: Application.get_env(:viralligator, :redis_url),
+config :exredis, Viralligator,
+  url: System.get_env("REDIS_URI") || "redis://127.0.0.1:6379/2",
   reconnect: :no_reconnect,
   max_queue: :infinity
 

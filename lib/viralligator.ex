@@ -1,4 +1,7 @@
 defmodule Viralligator do
+  @moduledoc """
+  Main module
+  """
   use Application
 
   def start(_type, _args) do
@@ -14,7 +17,7 @@ defmodule Viralligator do
       worker(Viralligator.ShareService.Ok, []),
       worker(Cachex, [:http_cache, [default_ttl: :timer.minutes(15)]])
     ]
-
+    
     opts = [strategy: :one_for_one, name: Viralligator.Supervisor]
     Supervisor.start_link(children, opts)
   end

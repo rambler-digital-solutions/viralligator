@@ -3,41 +3,35 @@ defmodule Viralligator.Mixfile do
 
   def project do
     [app: :viralligator,
-     version: "1.1.0",
+     version: "0.1.0",
      elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     test_coverage: [tool: ExCoveralls],
      preferred_cli_env: [coveralls: :test],
      compilers: [:thrift | Mix.compilers],
      thrift_files: Mix.Utils.extract_files(["thrift"], [:thrift]),
      docs: [ main: "Viralligator", extras: ["README.md"]],
-     description: description(),
-     package: package(),
      deps: deps()]
   end
 
+  # Configuration for the OTP application
+  #
+  # Type "mix help compile.app" for more information
   def application do
     [mod: {Viralligator, []},
      applications: [:logger, :httpotion, :cachex, :exredis, :riffed, :poison, :floki]]
   end
 
-  defp description do
-   """
-    Viralligator
-   """
-  end
-
-  defp package do
-    [
-      name: :viralligator,
-      files: ["lib", "thrift", "mix.exs", "config", "VERSION", "README*"],
-      maintainers: ["a.antonov@rambler-co.ru", "artem.malyshev@rambler-co.ru",
-      "d.zuev@rambler-co.ru", "a.matrynyuk@rambler-co.ru", "stass.german@rambler-co.ru"],
-      licenses: [],
-      links: []
-    ]
-  end
-
+  # Dependencies can be Hex packages:
+  #
+  #   {:mydep, "~> 0.3.0"}
+  #
+  # Or git/path repositories:
+  #
+  #   {:mydep, git: "https://github.com/elixir-lang/mydep.git", tag: "0.1.0"}
+  #
+  # Type "mix help deps" for more examples and options
   defp deps do
     [
       {:amnesia, "~> 0.2.5"},
@@ -47,7 +41,7 @@ defmodule Viralligator.Mixfile do
       {:floki, "~> 0.10.1"},
       {:exredis, ">= 0.2.4"},
       {:cachex, "~> 2.0"},
-      {:decorator, "~> 1.0"},
+      {:decorator, "~> 1.0"}
     ]
   end
 end
